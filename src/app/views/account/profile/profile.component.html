@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="container-account" *ngIf="user">
+    <div class="container-about">
+      <h1>{{ user.username }}</h1>
+
+      <p>
+        {{ user.bio }}
+      </p>
+
+      <mat-divider></mat-divider>
+
+      <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
+
+      <ul>
+        <li>
+          {{ user.total_publications }}
+          {{ user.total_publications > 1 ? "Publicações" : "Publicação" }}
+        </li>
+        <!-- <li>&sdot;</li>
+        <li>0 Seguidores</li>
+        <li>&sdot;</li>
+        <li>0 Seguindo</li> -->
+      </ul>
+    </div>
+
+    <div class="container-photo">
+      <div [style.background-image]="'url(' + user.photo + ')'">
+        <!-- <button mat-mini-fab color="primary">
+          <mat-icon>mode_edit</mat-icon>
+        </button> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="container-publications">
+    <app-card-publication
+      *ngFor="let publication of publications"
+      [publication]="publication"
+      [callbackDelete]="deletePublication"
+      [isOwner]="isOwner"
+    ></app-card-publication>
+
+    <app-paginator
+      [callbackFunction]="setPublications"
+      [pagination]="pagination"
+    ></app-paginator>
+  </div>
+</div>

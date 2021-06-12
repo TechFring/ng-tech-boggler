@@ -1,0 +1,50 @@
+<mat-card>
+  <div *ngIf="callbackDelete && isOwner" class="more-options">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        routerLink="/publicacoes/editar/{{ publication.id }}"
+      >
+        Editar
+      </button>
+
+      <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
+    </mat-menu>
+  </div>
+
+  <a routerLink="/publicacoes/{{ publication.id }}">
+    <mat-card-header>
+      <div
+        mat-card-avatar
+        class="cover"
+        [style.background-image]="'url(' + publication.cover + ')'"
+      ></div>
+      <mat-card-title>{{ publication.title }}</mat-card-title>
+      <mat-card-subtitle>
+        <a
+          class="link-light-hover"
+          routerLink="/usuarios/{{ publication.user.id }}"
+        >
+          por&nbsp;{{ publication.user.username }}&nbsp;-&nbsp;
+          {{ publication.created_at | date: "dd/MM/yyyy" }}
+        </a>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>
+        {{ publication.subtitle }}
+      </p>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <button mat-button color="primary" *ngFor="let tag of publication.tags">
+        {{ tag.name }}
+      </button>
+    </mat-card-footer>
+  </a>
+</mat-card>

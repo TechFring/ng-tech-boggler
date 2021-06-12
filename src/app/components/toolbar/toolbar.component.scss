@@ -1,0 +1,24 @@
+@import "../../../styles.scss";
+
+mat-toolbar {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  height: 56px;
+  border-bottom: 1px solid $gray;
+}
+
+.container {
+  display: flex;
+  padding: 0;
+
+  a:first-child {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+
+    span {
+      font-size: 1.5rem;
+    }
+  }
+}

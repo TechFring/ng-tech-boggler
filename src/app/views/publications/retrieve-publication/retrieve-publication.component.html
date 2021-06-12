@@ -1,0 +1,82 @@
+<div class="container-publication" *ngIf="publication">
+  <div *ngIf="userId === publication.user.id" class="more-options">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        routerLink="/publicacoes/editar/{{ publication.id }}"
+      >
+        Editar
+      </button>
+
+      <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
+    </mat-menu>
+  </div>
+
+  <h1>{{ publication.title }}</h1>
+
+  <h4>{{ publication.subtitle }}</h4>
+
+  <div [style.border]="'none'" class="preview-cover">
+    <div [style.background-image]="'url(' + publication.cover + ')'"></div>
+  </div>
+
+  <div
+    class="publication-content"
+    [innerHTML]="publication.content | noSanitize"
+  ></div>
+
+  <div class="container-tags">
+    <button
+      *ngFor="let tag of publication.tags"
+      mat-stroked-button
+      color="primary"
+      type="button"
+    >
+      {{ tag.name }}
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="container-author">
+    <div>
+      <h2>Sobre o autor</h2>
+
+      <h1>
+        <a
+          class="link-dark-hover"
+          routerLink="/usuarios/{{ publication.user.id }}"
+        >
+          {{ publication.user.username }}
+        </a>
+      </h1>
+
+      <p>{{ publication.user.bio }}</p>
+    </div>
+
+    <div>
+      <div
+        routerLink="/usuarios/{{ publication.user.id }}"
+        class="photo-author"
+        [style.background-image]="'url(' + publication.user.photo + ')'"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<div class="container-more" *ngIf="morePublications">
+  <h2>Mais Publicações</h2>
+
+  <mat-divider></mat-divider>
+
+  <div>
+    <app-card-publication
+      *ngFor="let publication of morePublications"
+      [publication]="publication"
+    ></app-card-publication>
+  </div>
+</div>

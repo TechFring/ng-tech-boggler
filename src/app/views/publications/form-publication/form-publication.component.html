@@ -1,0 +1,158 @@
+<mat-vertical-stepper #stepper>
+  <mat-step
+    [stepControl]="firstFormGroup"
+    errorMessage="Preencha as informações da publicação corretamente"
+  >
+    <ng-template matStepLabel>Informações</ng-template>
+
+    <div class="stepper-content">
+      <div>
+        <form class="form-info" [formGroup]="firstFormGroup">
+          <div>
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Título</mat-label>
+                <input
+                  type="text"
+                  maxlength="50"
+                  matInput
+                  formControlName="title"
+                />
+                <mat-error>Campo obrigatório</mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Subtítulo</mat-label>
+                <input
+                  type="text"
+                  maxlength="150"
+                  matInput
+                  formControlName="subtitle"
+                />
+                <mat-error>Campo obrigatório</mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Tags</mat-label>
+                <mat-select formControlName="tags" multiple>
+                  <mat-option
+                    *ngFor="let tag of tags"
+                    [value]="tag.id"
+                    (click)="onChangeSelectedTags()"
+                  >
+                    {{ tag.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="firstFormGroup.controls['tags'].errors?.required"
+                >
+                  Campo obrigatório
+                </mat-error>
+                <mat-error
+                  *ngIf="firstFormGroup.controls['tags'].errors?.maxlength"
+                >
+                  Selecione no máximo 3 tags
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p class="upload-cover">
+              <button mat-stroked-button type="button">
+                <mat-icon>image_search</mat-icon>
+              </button>
+              <input
+                type="file"
+                (change)="onFileChange($event)"
+                accept="image/*"
+                formControlName="cover"
+              />
+              <mat-error
+                *ngIf="firstFormGroup.controls['cover'].errors?.required"
+              >
+                Campo obrigatório
+              </mat-error>
+            </p>
+          </div>
+
+          <div class="preview-cover">
+            <div
+              *ngIf="preview"
+              [style.background-image]="'url(' + preview + ')'"
+            ></div>
+          </div>
+        </form>
+
+        <div class="container-buttons">
+          <button mat-button matStepperNext>Próximo</button>
+        </div>
+      </div>
+    </div>
+  </mat-step>
+
+  <mat-step
+    [stepControl]="secondFormGroup"
+    errorMessage="A publicação precisa ter no mínimo 50 caracteres"
+  >
+    <ng-template matStepLabel>Conteúdo</ng-template>
+    <div class="stepper-content">
+      <form [formGroup]="secondFormGroup">
+        <p>
+          <angular-editor
+            formControlName="content"
+            [config]="editorConfig"
+          ></angular-editor>
+        </p>
+
+        <div class="container-buttons">
+          <button mat-button matStepperPrevious>Anterior</button>
+          <button mat-button matStepperNext>Próximo</button>
+        </div>
+      </form>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Pré-visualizar</ng-template>
+    <div class="stepper-content">
+      <div class="container-publication">
+        <h1>{{ firstFormGroup.value["title"] }}</h1>
+
+        <h4>{{ firstFormGroup.value["subtitle"] }}</h4>
+
+        <div [style.border]="preview && 'none'" class="preview-cover">
+          <div
+            *ngIf="preview"
+            [style.background-image]="'url(' + preview + ')'"
+          ></div>
+        </div>
+
+        <div
+          class="publication-content"
+          [innerHTML]="secondFormGroup.value['content'] | noSanitize"
+        ></div>
+
+        <div class="container-tags">
+          <button
+            *ngFor="let tag of selectedTags"
+            mat-stroked-button
+            color="primary"
+            type="button"
+          >
+            {{ tag.name }}
+          </button>
+        </div>
+      </div>
+
+      <div class="container-buttons">
+        <button mat-button matStepperPrevious>Anterior</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>

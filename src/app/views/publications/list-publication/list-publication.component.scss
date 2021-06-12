@@ -1,0 +1,39 @@
+@import "../../../../styles.scss";
+
+.container {
+  display: flex;
+  margin-top: 32px;
+}
+
+.container-publications {
+  max-width: 700px;
+  width: 100%;
+}
+
+.container-tags {
+  flex: 1;
+  padding-left: 64px;
+
+  strong {
+    font-size: 0.8rem;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  button {
+    margin-top: 8px;
+    margin-right: 8px;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+
+  .container-tags,
+  .container-publications {
+    padding: 0;
+    margin-bottom: 48px;
+  }
+}

@@ -1,0 +1,10 @@
+<h3 mat-dialog-title>Confirmar exclusão</h3>
+
+<div mat-dialog-content>
+  <p>{{ text }}</p>
+</div>
+
+<div mat-dialog-actions class="actions">
+  <button mat-button color="warn" (click)="onDismiss()">Não</button>
+  <button mat-button (click)="onConfirm()">Sim</button>
+</div>

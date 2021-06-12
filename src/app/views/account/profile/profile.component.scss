@@ -1,0 +1,87 @@
+@import "../../../../styles.scss";
+
+.container {
+  padding-top: 64px;
+  max-width: 680px;
+}
+
+.container-account {
+  color: $dark-gray;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container-about {
+  flex: 2;
+
+  .name {
+    color: $light-gray;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    text-align: justify;
+  }
+
+  mat-divider {
+    margin: 32px 0;
+  }
+
+  ul {
+    padding: 0;
+    margin-top: 24px;
+  }
+
+  li {
+    color: $primary;
+    font-size: 1rem;
+    display: inline;
+
+    & + li {
+      margin-left: 8px;
+    }
+  }
+}
+
+.container-photo {
+  flex: 1;
+  margin-left: 40px;
+  display: flex;
+  
+  & > div {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+ 
+    button {
+      position: absolute;
+      bottom: -16px;
+      left: calc(50% - 20px);
+    }
+  }
+}
+
+.container-publications {
+  margin: 64px 0 80px;
+}
+
+@media(max-width: 900px) {
+  .container-account {
+    flex-direction: column-reverse;
+  }
+
+  .container-photo {
+    justify-content: center;
+    margin: 0 0 32px 0;
+  }
+}

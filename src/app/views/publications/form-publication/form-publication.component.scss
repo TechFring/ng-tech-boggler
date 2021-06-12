@@ -1,0 +1,53 @@
+mat-vertical-stepper {
+  padding: 0 2rem;
+  margin: 8px 0;
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 500px;
+}
+
+.stepper-content {
+  margin-top: 24px;
+}
+
+.upload-cover {
+  position: relative;
+
+  button,
+  input[type="file"] {
+    height: 54.8px;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  input[type="file"] {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+  }
+
+  mat-error {
+    font-size: 75%;
+    margin: 7px 0 0;
+    padding: 0 10.5px;
+  }
+}
+
+.container-buttons {
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  justify-content: flex-end;
+}
+
+.form-info {
+  display: flex;
+  flex-direction: row;
+
+  div {
+    flex: 1;
+  }
+}

@@ -1,0 +1,63 @@
+.container-main {
+  min-height: calc(100vh - 56px);
+  display: flex;
+}
+
+.container-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  padding: 20px 80px;
+
+  & > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  span.material-icons {
+    font-size: 4.5rem;
+    display: block;
+    margin: auto auto 32px auto;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    height: 54.81px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.container-options {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.no-account {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.container-cover {
+  flex: 2;
+  background: url("/assets/images/background-login.jpeg") no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 900px) {
+  .container-form {
+    padding: 20px 20px;
+  }
+
+  .container-cover {
+    display: none;
+  }
+}

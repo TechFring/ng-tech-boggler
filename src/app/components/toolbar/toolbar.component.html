@@ -1,0 +1,41 @@
+<mat-toolbar>
+  <div class="container">
+    <a routerLink="">
+      <span class="material-icons">face</span>
+    </a>
+
+    <button mat-button routerLink="/publicacoes">Publicações</button>
+
+    <div
+      *ngIf="
+        authService.isUserLoggedIn();
+        then isAuthenticated;
+        else noAuthenticated
+      "
+    ></div>
+
+    <ng-template #isAuthenticated>
+      <button mat-button routerLink="/publicacoes/novo">
+        Escrever publicação
+      </button>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/meu-perfil">Meu perfil</button>
+        <button mat-menu-item>Configurações da conta</button>
+        <button mat-menu-item (click)="authService.logout()">Sair</button>
+      </mat-menu>
+    </ng-template>
+
+    <ng-template #noAuthenticated>
+      <button mat-button routerLink="/login">Entrar</button>
+
+      <button mat-stroked-button routerLink="/criar-conta" color="primary">
+        Criar conta
+      </button>
+    </ng-template>
+  </div>
+</mat-toolbar>

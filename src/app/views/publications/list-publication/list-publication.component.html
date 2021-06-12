@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="container-publications">
+    <h2>
+      {{
+        tagFilter
+          ? 'Publicações com a tag "' + tagFilter.name + '"'
+          : "Publicações recentes"
+      }}
+    </h2>
+
+    <div *ngIf="publications.length == 0; then isEmpty; else notIsEmpty"></div>
+
+    <ng-template #isEmpty>
+      <div class="no-data"></div>
+      <p>Nenhuma publicação foi encontrada</p>
+    </ng-template>
+
+    <ng-template #notIsEmpty>
+      <app-card-publication
+        *ngFor="let publication of publications"
+        [publication]="publication"
+      ></app-card-publication>
+
+      <app-paginator
+        [callbackFunction]="setPublications"
+        [pagination]="pagination"
+      ></app-paginator>
+    </ng-template>
+  </div>
+
+  <div class="container-tags">
+    <strong>Explore as publicações por tag</strong>
+
+    <button routerLink="/publicacoes" mat-stroked-button color="primary">
+      Recentes
+    </button>
+
+    <button
+      *ngFor="let tag of tags"
+      routerLink="/publicacoes"
+      [queryParams]="{ tag: tag.id }"
+      mat-stroked-button
+      color="primary"
+    >
+      {{ tag.name }}
+    </button>
+  </div>
+</div>

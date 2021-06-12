@@ -1,0 +1,19 @@
+@import "../../../styles.scss";
+
+mat-card {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.more-options {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

@@ -1,0 +1,54 @@
+@import "../../../../styles.scss";
+
+.container-sm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $dark-gray;
+}
+
+.brand {
+  justify-self: flex-start;
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+
+  & > .material-icons {
+    font-size: 1.4rem;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bolder;
+  font-family: Helvetica, sans-serif;
+}
+
+.message {
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+  text-align: center;
+}
+
+form {
+  margin-top: 32px;
+  width: 100%;
+
+  p {
+    display: flex;
+
+    mat-form-field {
+      flex: 1;
+
+      & + mat-form-field {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    display: block;
+    margin-left: auto;
+  }
+}
