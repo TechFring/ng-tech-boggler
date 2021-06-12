@@ -1,27 +1,42 @@
-# Front
+<h1 align="center">
+<br />
+NG TECH BLOGGER
+</h1>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
+<br />
 
-## Development server
+## 🚀 Tecnologias
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- ✔️ Angular
 
-## Code scaffolding
+- ✔️ TypeScript
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+<br />
+<br />
 
-## Build
+## 💻 Demo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+<a href="https://ng-tech-blogger.herokuapp.com/publicacoes">https://ng-tech-blogger.herokuapp.com/publicacoes</a>
 
-## Running unit tests
+<br/>
+<br/>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## ⚙️ Executando ambiente de desenvolvimento
 
-## Running end-to-end tests
+<strong>Clone o projeto e acesse o diretório via terminal para prosseguir</strong>
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+<br/>
 
-## Further help
+<span>Instalando as dependências do projeto</span>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+npm install
+```
+
+<br/>
+
+<span>Executando projeto</span>
+
+```
+npm start
+```
