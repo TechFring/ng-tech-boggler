@@ -14,6 +14,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 export const materialModules = [
   MatFormFieldModule,
@@ -32,4 +33,5 @@ export const materialModules = [
   MatSelectModule,
   MatDividerModule,
   MatDialogModule,
+  MatProgressBarModule,
 ];

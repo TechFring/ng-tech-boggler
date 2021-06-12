@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'src/app/services/auth.service';
+import { LoaderService } from 'src/app/http-interceptors/loader.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,7 +9,10 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    public loaderService: LoaderService
+  ) {}
 
   ngOnInit(): void {}
 }

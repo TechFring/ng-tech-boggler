@@ -37,5 +37,9 @@
         Criar conta
       </button>
     </ng-template>
-  </div>
+  </div>  
 </mat-toolbar>
+
+<div *ngIf="loaderService.isLoading | async" class="container-loader">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

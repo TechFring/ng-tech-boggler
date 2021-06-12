@@ -7,22 +7,26 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 
-import { UtilsService } from './../services/utils.service';
-import { AuthService } from './../services/auth.service';
+import { UtilsService } from 'src/app/services/utils.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { LoaderService } from 'src/app/http-interceptors/loader.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    public loaderService: LoaderService
   ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    this.loaderService.isLoading.next(true);
+
     const token = this.authService.getAccessToken();
     let request: HttpRequest<any> = req;
 
@@ -32,7 +36,10 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request).pipe(catchError(this.handleError));
+    return next.handle(request).pipe(
+      catchError(this.handleError),
+      finalize(() => this.loaderService.isLoading.next(false))
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -45,7 +52,7 @@ export class AuthInterceptor implements HttpInterceptor {
       );
 
       // if (error.status === 401 && error.error.code === 'token_not_valid') {
-        // this.authService.logout();
+      // this.authService.logout();
       // }
     }
 
