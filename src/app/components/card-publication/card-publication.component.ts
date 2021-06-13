@@ -9,13 +9,13 @@ import { Publication } from 'src/app/models/publications';
   styleUrls: ['./card-publication.component.scss'],
 })
 export class CardPublicationComponent implements OnInit {
-  text = 'Tem certeza que deseja excluir essa publicação? Esta ação não poderá ser desfeita.';
+  public text = 'Tem certeza que deseja excluir essa publicação? Esta ação não poderá ser desfeita.';
 
   @Input() publication: Publication;
   @Input() callbackDelete?: (publicationId: string) => void;
-  @Input() isOwner?: boolean;
+  @Input() isMyProfile?: boolean;
 
-  constructor(private utilsService: UtilsService) {}
+  constructor(public utilsService: UtilsService) {}
 
   ngOnInit(): void {}
 
