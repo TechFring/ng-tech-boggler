@@ -7,10 +7,10 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./paginator.component.scss'],
 })
 export class PaginatorComponent implements OnInit {
+  public pageSizeOptions = [10, 20, 30, 40];
+
   @Input() callbackFunction: (args: any) => void;
   @Input() pagination: Pagination;
-
-  pageSizeOptions = [10, 20, 30, 40];
 
   constructor() {}
 

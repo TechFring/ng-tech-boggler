@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Publication } from 'src/app/models/publications';
 import { PublicationsService } from 'src/app/services/publications.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
@@ -12,19 +11,18 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./retrieve-publication.component.scss'],
 })
 export class RetrievePublicationComponent implements OnInit {
-  publication: Publication;
-  morePublications: Publication[];
-  userId: string;
+  public publication: Publication;
+  public morePublications: Publication[];
+  public userId: string;
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private utilsService: UtilsService,
+    public utilsService: UtilsService,
     private publicationsService: PublicationsService
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.authService.getUserId();
+    this.userId = this.utilsService.getUserId();
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       const publicationId = params.get('publicationId');

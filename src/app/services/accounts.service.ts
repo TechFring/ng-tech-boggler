@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
   providedIn: 'root',
 })
 export class AccountsService {
-  baseUrl = `${environment.api}/usuarios`;
+  public baseUrl = `${environment.api}/usuarios`;
 
   constructor(
     private http: HttpClient,

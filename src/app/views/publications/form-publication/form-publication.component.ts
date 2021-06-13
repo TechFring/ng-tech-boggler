@@ -20,12 +20,13 @@ import { PublicationsService } from 'src/app/services/publications.service';
   ],
 })
 export class FormPublicationComponent implements OnInit {
-  tags: Tag[];
-  selectedTags: Tag[];
-  cover: File;
-  isEdit: boolean;
+  public tags: Tag[];
+  public selectedTags: Tag[];
+  public cover: File;
+  public preview: string;
+  public isEdit: boolean;
 
-  firstFormGroup = new FormGroup({
+  public firstFormGroup = new FormGroup({
     id: new FormControl('', []),
     title: new FormControl('', [Validators.required]),
     subtitle: new FormControl('', [Validators.required]),
@@ -33,14 +34,14 @@ export class FormPublicationComponent implements OnInit {
     tags: new FormControl('', [Validators.required, Validators.maxLength(3)]),
   });
 
-  secondFormGroup = new FormGroup({
+  public secondFormGroup = new FormGroup({
     content: new FormControl('', [
       Validators.required,
       Validators.minLength(50),
     ]),
   });
 
-  editorConfig: AngularEditorConfig = {
+  public editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
     height: 'auto',
@@ -58,8 +59,6 @@ export class FormPublicationComponent implements OnInit {
     ],
     outline: false,
   };
-
-  preview: string;
 
   constructor(
     private route: ActivatedRoute,

@@ -6,7 +6,7 @@ import { AccountsService } from 'src/app/services/accounts.service';
 import { Publication } from 'src/app/models/publications';
 import { Pagination } from 'src/app/models/api';
 import { PublicationsService } from 'src/app/services/publications.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { UtilsService } from 'src/app/services/utils.service';
 import { User } from 'src/app/models/auth';
 
 @Component({
@@ -15,16 +15,16 @@ import { User } from 'src/app/models/auth';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  publications: Publication[];
-  pagination: Pagination;
-  user: User;
-  isOwner: boolean;
+  public publications: Publication[];
+  public pagination: Pagination;
+  public user: User;
+  public isMyProfile: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private accountsService: AccountsService,
-    private authService: AuthService,
-    private publicationsService: PublicationsService
+    private publicationsService: PublicationsService,
+    public utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
@@ -34,16 +34,18 @@ export class ProfileComponent implements OnInit {
     };
 
     const paramUserId = this.route.snapshot.paramMap.get('userId');
-    this.isOwner = paramUserId === null;
+    this.isMyProfile = paramUserId === null;
 
-    if (this.isOwner) {
-      const userId = this.authService.getUserId();
+    if (this.isMyProfile) {
+      const userId = this.utilsService.getUserId();
       const res = this.accountsService.getOwner(userId);
       res.subscribe((owner) => {
         this.user = owner;
         this.setPublications();
       });
     } else {
+      this.checksIfIsMyOwnProfile(paramUserId);
+
       const res = this.accountsService.getUserById(paramUserId);
       res.subscribe((user) => {
         this.user = user;
@@ -69,10 +71,19 @@ export class ProfileComponent implements OnInit {
       });
   };
 
-  deletePublication = (publicationId: string) => {
+  deletePublication = (publicationId: string): void => {
     const res = this.publicationsService.deletePublication(publicationId);
     res.subscribe(() => {
       window.location.reload();
     });
   };
+
+  checksIfIsMyOwnProfile(paramUserId: string): void {
+    const userId = this.utilsService.getUserId();
+
+    if (userId === paramUserId) {
+      window.location.href = '/meu-perfil';
+      return;
+    }
+  }
 }

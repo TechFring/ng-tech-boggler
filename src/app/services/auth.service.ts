@@ -13,7 +13,7 @@ import { Account, Token } from 'src/app/models/auth';
   providedIn: 'root',
 })
 export class AuthService {
-  baseUrl = `${environment.api}/auth`;
+  public baseUrl = `${environment.api}/auth`;
 
   constructor(
     private http: HttpClient,
@@ -45,11 +45,6 @@ export class AuthService {
   getAccessToken(): string {
     const token = window.localStorage.getItem('token');
     return token;
-  }
-
-  getUserId(): string {
-    const userId = window.localStorage.getItem('userId');
-    return userId;
   }
 
   setAccessToken(res: Token): void {

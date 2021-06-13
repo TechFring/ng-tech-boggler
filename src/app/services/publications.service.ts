@@ -14,7 +14,7 @@ import { UtilsService } from './utils.service';
   providedIn: 'root',
 })
 export class PublicationsService {
-  baseUrl = environment.api;
+  public baseUrl = environment.api;
 
   constructor(
     private router: Router,

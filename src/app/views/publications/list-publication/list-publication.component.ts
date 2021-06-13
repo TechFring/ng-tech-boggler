@@ -13,10 +13,10 @@ import { Pagination } from 'src/app/models/api';
   styleUrls: ['./list-publication.component.scss'],
 })
 export class ListPublicationComponent implements OnInit {
-  publications: Publication[] = [];
-  pagination: Pagination;
-  tags: Tag[] = [];
-  tagFilter: Tag;
+  public publications: Publication[] = [];
+  public pagination: Pagination;
+  public tags: Tag[] = [];
+  public tagFilter: Tag;
 
   constructor(
     public route: ActivatedRoute,
