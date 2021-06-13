@@ -1,9 +1,10 @@
-import { ConfirmDialogComponent } from './../components/confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EMPTY, Observable } from 'rxjs';
+
+import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +42,23 @@ export class UtilsService {
     res.subscribe((remove) => {
       if (remove) callback(id);
     });
+  }
+
+  getPhotoUrl(photo: string): string {
+    let background = `url(${photo})`;
+    if (photo == null) background = 'url(/assets/images/default-user.png)';
+    return background;
+  }
+
+  getUserId(): string {
+    const userId = window.localStorage.getItem('userId');
+    return userId;
+  }
+
+  getProfileUrl(userId: string): string {
+    let url = `/usuarios/${userId}`;
+    const id = this.getUserId();
+    if (userId === id) url = '/meu-perfil';
+    return url;
   }
 }
