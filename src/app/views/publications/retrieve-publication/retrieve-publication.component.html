@@ -49,7 +49,7 @@
       <h1>
         <a
           class="link-dark-hover"
-          routerLink="/usuarios/{{ publication.user.id }}"
+          [routerLink]="utilsService.getProfileUrl(publication.user.id)"
         >
           {{ publication.user.username }}
         </a>
@@ -60,9 +60,11 @@
 
     <div>
       <div
-        routerLink="/usuarios/{{ publication.user.id }}"
+        [routerLink]="utilsService.getProfileUrl(publication.user.id)"
         class="photo-author"
-        [style.background-image]="'url(' + publication.user.photo + ')'"
+        [style.background-image]="
+          utilsService.getPhotoUrl(publication.user.photo)
+        "
       ></div>
     </div>
   </div>

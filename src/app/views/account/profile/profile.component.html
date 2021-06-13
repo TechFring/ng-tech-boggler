@@ -24,7 +24,7 @@
     </div>
 
     <div class="container-photo">
-      <div [style.background-image]="'url(' + user.photo + ')'">
+      <div [style.background-image]="utilsService.getPhotoUrl(user.photo)">
         <!-- <button mat-mini-fab color="primary">
           <mat-icon>mode_edit</mat-icon>
         </button> -->
@@ -37,7 +37,7 @@
       *ngFor="let publication of publications"
       [publication]="publication"
       [callbackDelete]="deletePublication"
-      [isOwner]="isOwner"
+      [isMyProfile]="isMyProfile"
     ></app-card-publication>
 
     <app-paginator
