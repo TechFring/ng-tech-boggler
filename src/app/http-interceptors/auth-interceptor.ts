@@ -37,25 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      catchError(this.handleError),
       finalize(() => this.loaderService.isLoading.next(false))
     );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 0) {
-      console.error('Ocorreu um erro', error.error);
-    } else {
-      console.error(
-        `Código do erro: ${error.status}, - ` +
-          `Erro: ${JSON.stringify(error.error)}`
-      );
-
-      // if (error.status === 401 && error.error.code === 'token_not_valid') {
-      // this.authService.logout();
-      // }
-    }
-
-    return throwError('Ocorreu um erro, tente novamente');
   }
 }

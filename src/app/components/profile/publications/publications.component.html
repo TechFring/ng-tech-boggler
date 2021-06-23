@@ -1,0 +1,20 @@
+<div *ngIf="publications.length == 0; then isEmpty; else notIsEmpty"></div>
+
+<ng-template #isEmpty>
+  <div class="no-data"></div>
+  <p>Nada aqui até o momento</p>
+</ng-template>
+
+<ng-template #notIsEmpty>
+  <app-card-publication
+    *ngFor="let publication of publications"
+    [publication]="publication"
+    [mode]="mode"
+    [callbackDelete]="deletePublication"
+  ></app-card-publication>
+
+  <app-paginator
+    [callbackFunction]="setPublications"
+    [pagination]="pagination"
+  ></app-paginator>
+</ng-template>

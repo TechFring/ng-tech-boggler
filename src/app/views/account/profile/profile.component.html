@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="container-account" *ngIf="user">
+<div class="container" *ngIf="user">
+  <div class="container-account">
     <div class="container-about">
       <h1>{{ user.username }}</h1>
 
@@ -16,10 +16,8 @@
           {{ user.total_publications }}
           {{ user.total_publications > 1 ? "Publicações" : "Publicação" }}
         </li>
-        <!-- <li>&sdot;</li>
-        <li>0 Seguidores</li>
-        <li>&sdot;</li>
-        <li>0 Seguindo</li> -->
+
+        <!-- <li>&sdot;</li> -->
       </ul>
     </div>
 
@@ -33,16 +31,14 @@
   </div>
 
   <div class="container-publications">
-    <app-card-publication
-      *ngFor="let publication of publications"
-      [publication]="publication"
-      [callbackDelete]="deletePublication"
-      [isMyProfile]="isMyProfile"
-    ></app-card-publication>
+    <mat-tab-group>
+      <mat-tab label="Publicações">
+        <app-publications [userId]="user.id" [isMyProfile]="isMyProfile"></app-publications>
+      </mat-tab>
 
-    <app-paginator
-      [callbackFunction]="setPublications"
-      [pagination]="pagination"
-    ></app-paginator>
+      <mat-tab *ngIf="isMyProfile" label="Salvos">
+        <app-saved [userId]="user.id"></app-saved>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

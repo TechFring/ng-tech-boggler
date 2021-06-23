@@ -8,7 +8,8 @@ import { environment } from 'src/environments/environment';
 import { ResponseAPI } from 'src/app/models/api';
 import { Tag } from 'src/app/models/publications';
 import { Publication } from 'src/app/models/publications';
-import { UtilsService } from './utils.service';
+import { UtilsService } from 'src/app/services/utils.service';
+import { Method } from 'src/app/models/api';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class PublicationsService {
   ) {}
 
   deletePublication(publicationId: string): Observable<void> {
-    const url = `${this.baseUrl}/publicacoes/${publicationId}`;
+    const url = `${this.baseUrl}/publicacoes/${publicationId}/`;
     return this.http.delete<void>(url).pipe(
       map((res) => res),
       catchError(() =>
@@ -56,8 +57,9 @@ export class PublicationsService {
     return this.http.get<Publication[]>(url);
   }
 
-  getPublicationById(publicationId: string): Observable<Publication> {
-    const url = `${this.baseUrl}/publicacoes/${publicationId}/`;
+  getPublicationById(publicationId: string, useKeyword?: boolean): Observable<Publication> {
+    let url = `${this.baseUrl}/publicacoes/${publicationId}/`;
+    if (useKeyword) url += '?keyword=owner';
     return this.http.get<Publication>(url).pipe(
       map((res) => res),
       catchError(() =>
@@ -69,24 +71,44 @@ export class PublicationsService {
     );
   }
 
-  postPublication(publication: Publication, cover: File): void {
-    const url = `${this.baseUrl}/publicacoes/`;
-
+  sendPublication(
+    publication: Publication,
+    method: Method,
+    cover?: File
+  ): void {
+    let url = `${this.baseUrl}/publicacoes/`;
+    let res;
+    
     const formData = new FormData();
     formData.append('title', publication.title);
     formData.append('subtitle', publication.subtitle);
     formData.append('content', publication.content);
-    formData.append('cover', cover, cover.name);
+
+    if (cover) {
+      formData.append('cover', cover, cover.name);
+    }
 
     publication.tags.forEach((tag) => {
       formData.append('tags', tag);
     });
 
-    const res = this.http.post<Publication>(url, formData);
+    switch (method) {
+      case 'patch':
+        url = `${this.baseUrl}/publicacoes/${publication.id}/`;
+        res = this.http.patch<Publication>(url, formData);
+        break;
+      case 'put':
+        url = `${this.baseUrl}/publicacoes/${publication.id}/`;
+        res = this.http.put<Publication>(url, formData);
+        break;
+      case 'post':
+        res = this.http.post<Publication>(url, formData);
+        break;
+    }
 
     res.subscribe(
       () => {
-        const message = 'Sua publicação foi enviada com sucesso!';
+        const message = 'Publicação enviada com sucesso!';
         this.utilsService.showMessage(message);
       },
       () => {
@@ -95,35 +117,6 @@ export class PublicationsService {
       },
       () => {
         this.router.navigate(['/publicacoes']);
-      }
-    );
-  }
-
-  patchPublication(publication: Publication): void {
-    const url = `${this.baseUrl}/publicacoes/${publication.id}/`;
-
-    const formData = new FormData();
-    formData.append('title', publication.title);
-    formData.append('subtitle', publication.subtitle);
-    formData.append('content', publication.content);
-
-    publication.tags.forEach((tag) => {
-      formData.append('tags', tag);
-    });
-
-    const res = this.http.patch<Publication>(url, formData);
-
-    res.subscribe(
-      () => {
-        const message = 'Sua publicação foi atualizada com sucesso!';
-        this.utilsService.showMessage(message);
-      },
-      () => {
-        const message = 'Ocorreu um erro inesperado. Tente novamente';
-        this.utilsService.showMessage(message, true);
-      },
-      () => {
-        this.router.navigate([`/publicacoes/${publication.id}/`]);
       }
     );
   }

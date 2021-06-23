@@ -52,3 +52,22 @@ form {
     margin-left: auto;
   }
 }
+
+@media (max-width: 650px) {
+  .container-sm {
+    margin: 56px 0;
+  }
+
+  .message {
+    display: none;
+  }
+
+  form p {
+    flex-direction: column;
+    margin: 0;
+
+    mat-form-field + mat-form-field {
+      margin: 0;
+    }
+  }
+}

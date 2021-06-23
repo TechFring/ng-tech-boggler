@@ -8,14 +8,14 @@
       }}
     </h2>
 
-    <div *ngIf="publications.length == 0; then isEmpty; else notIsEmpty"></div>
+    <div *ngIf="publications.length == 0; then isEmpty; else isNotEmpty"></div>
 
     <ng-template #isEmpty>
       <div class="no-data"></div>
       <p>Nenhuma publicação foi encontrada</p>
     </ng-template>
 
-    <ng-template #notIsEmpty>
+    <ng-template #isNotEmpty>
       <app-card-publication
         *ngFor="let publication of publications"
         [publication]="publication"

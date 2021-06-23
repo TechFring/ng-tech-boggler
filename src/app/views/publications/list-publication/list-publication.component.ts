@@ -29,11 +29,13 @@ export class ListPublicationComponent implements OnInit {
       pageSize: 10,
     };
 
-    this.publicationsService.getTags().subscribe((res) => {
-      this.tags = res.results;
+    const res = this.publicationsService.getTags();
+    res.subscribe(({ results }) => {
+      this.tags = results;
     });
 
-    this.route.queryParams.subscribe((obj) => {
+    const resParams = this.route.queryParams;
+    resParams.subscribe((obj) => {
       let tagParam = obj.tag;
 
       if (tagParam) {
@@ -53,15 +55,15 @@ export class ListPublicationComponent implements OnInit {
       this.pagination = event;
     }
 
-    this.publicationsService
-      .getPublications(
-        this.pagination.pageIndex,
-        this.pagination.pageSize,
-        this.tagFilter !== null ? this.tagFilter.id : null
-      )
-      .subscribe((res) => {
-        this.publications = res.results;
-        this.pagination.length = res.count;
-      });
+    const res = this.publicationsService.getPublications(
+      this.pagination.pageIndex,
+      this.pagination.pageSize,
+      this.tagFilter !== null ? this.tagFilter.id : null
+    );
+
+    res.subscribe(({ results, ...pagination }) => {
+      this.publications = results;
+      this.pagination.length = pagination.count;
+    });
   };
 }

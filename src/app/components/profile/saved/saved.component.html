@@ -1,0 +1,20 @@
+<div *ngIf="saved.length == 0; then isEmpty; else notIsEmpty"></div>
+
+<ng-template #isEmpty>
+  <div class="no-data"></div>
+  <p>Nada aqui até o momento</p>
+</ng-template>
+
+<ng-template #notIsEmpty>
+  <app-card-publication
+    *ngFor="let item of saved"
+    [publication]="item"
+    [mode]="mode"
+    [callbackDelete]="deleteSaved"
+  ></app-card-publication>
+
+  <app-paginator
+    [callbackFunction]="setSaved"
+    [pagination]="pagination"
+  ></app-paginator>
+</ng-template>

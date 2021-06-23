@@ -1,0 +1,41 @@
+<div class="container-form">
+  <div>
+    <button class="btn-dismiss" mat-icon-button (click)="onDismiss()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <span class="material-icons">face</span>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Nome de usuário</mat-label>
+          <input type="text" matInput formControlName="username" />
+          <mat-error>Campo obrigatório</mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input type="password" matInput formControlName="password" />
+          <mat-error>Campo obrigatório</mat-error>
+        </mat-form-field>
+      </p>
+
+      <button mat-stroked-button color="primary" type="submit">Entrar</button>
+    </form>
+
+    <div class="container-options">
+      <mat-checkbox color="primary">Lembrar-me</mat-checkbox>
+      <a class="link-dark-underline" href="#">Esqueceu sua senha?</a>
+    </div>
+
+    <p class="no-account">
+      Ainda não possui conta?&nbsp;
+      <a class="link-dark-underline" routerLink="/criar-conta"
+        >Clique aqui para criar</a
+      >
+    </p>
+  </div>
+</div>

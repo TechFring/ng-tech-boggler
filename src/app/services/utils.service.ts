@@ -4,8 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EMPTY, Observable } from 'rxjs';
 
-import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -29,19 +27,6 @@ export class UtilsService {
     this.showMessage(message, true);
     if (urlRedirect) this.router.navigate([urlRedirect]);
     return EMPTY;
-  }
-
-  confirmDialog(text: string, id: string, callback: Function): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { text },
-      maxWidth: '400px',
-    });
-
-    const res = dialogRef.afterClosed();
-
-    res.subscribe((remove) => {
-      if (remove) callback(id);
-    });
   }
 
   getPhotoUrl(photo: string): string {

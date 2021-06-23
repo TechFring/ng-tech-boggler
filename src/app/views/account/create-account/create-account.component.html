@@ -11,40 +11,53 @@
     usuários da plataforma
   </p>
 
-  <form>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <p>
       <mat-form-field appearance="outline">
         <mat-label>Nome</mat-label>
-        <input matInput type="text" />
+        <input matInput type="text" formControlName="first_name" (keydown.space)="$event.preventDefault()" />
+        <mat-error *ngIf="formGroup.controls['first_name'].errors?.required">Campo obrigatório</mat-error>
+        <mat-error *ngIf="formGroup.controls['first_name'].errors?.maxlength">Esse campo deve conter no máximo 50 caracteres</mat-error>
       </mat-form-field>
-
+      
       <mat-form-field appearance="outline">
         <mat-label>Sobrenome</mat-label>
-        <input matInput type="text" />
+        <input matInput type="text" formControlName="last_name" (keydown.space)="$event.preventDefault()" />
+        <mat-error *ngIf="formGroup.controls['last_name'].errors?.required">Campo obrigatório</mat-error>
+        <mat-error *ngIf="formGroup.controls['last_name'].errors?.maxlength">Esse campo deve conter no máximo 50 caracteres</mat-error>
       </mat-form-field>
     </p>
-
+    
     <p>
       <mat-form-field appearance="outline">
         <mat-label>Nome de usuário</mat-label>
-        <input matInput type="text" />
+        <input matInput type="text" formControlName="username" (keydown.space)="$event.preventDefault()" />
+        <mat-error *ngIf="formGroup.controls['username'].errors?.required">Campo obrigatório</mat-error>
+        <mat-error *ngIf="formGroup.controls['username'].errors?.minlength">Esse campo deve conter no mínimo 8 caracteres</mat-error>
+        <mat-error *ngIf="formGroup.controls['username'].errors?.maxlength">Esse campo deve conter no máximo 20 caracteres</mat-error>
       </mat-form-field>
-
+      
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput type="email" />
+        <input matInput type="text" formControlName="email" (keydown.space)="$event.preventDefault()" />
+        <mat-error *ngIf="formGroup.controls['email'].errors?.required">Campo obrigatório</mat-error>
+        <mat-error *ngIf="formGroup.controls['email'].errors?.email">Email inválido</mat-error>
       </mat-form-field>
     </p>
-
+    
     <p>
       <mat-form-field appearance="outline">
         <mat-label>Senha</mat-label>
-        <input matInput type="password" />
+        <input matInput type="password" formControlName="password" />
+        <mat-error *ngIf="formGroup.controls['password'].errors?.required">Campo obrigatório</mat-error>
+        <mat-error *ngIf="formGroup.controls['password'].errors?.minlength">Esse campo deve conter no mínimo 8 caracteres</mat-error>
+        <mat-error *ngIf="formGroup.controls['password'].errors?.maxlength">Esse campo deve conter no máximo 20 caracteres</mat-error>
       </mat-form-field>
-
+      
       <mat-form-field appearance="outline">
         <mat-label>Confirmar senha</mat-label>
-        <input matInput type="password" />
+        <input matInput type="password" formControlName="confirm_password" />
+        <mat-error>As senhas não coincidem</mat-error>
       </mat-form-field>
     </p>
 

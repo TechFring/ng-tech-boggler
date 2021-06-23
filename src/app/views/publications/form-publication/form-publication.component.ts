@@ -75,11 +75,10 @@ export class FormPublicationComponent implements OnInit {
       this.tags = res.results;
 
       if (this.isEdit) {
-        this.firstFormGroup.controls["cover"].clearValidators();
-        this.firstFormGroup.controls["cover"].updateValueAndValidity();
+        this.firstFormGroup.controls['cover'].clearValidators();
+        this.firstFormGroup.controls['cover'].updateValueAndValidity();
 
-        const resEdit =
-          this.publicationsService.getPublicationById(publicationId);
+        const resEdit = this.publicationsService.getPublicationById(publicationId, true);
 
         resEdit.subscribe((publication) => {
           const tags = publication.tags.map((tag) => tag.id);
@@ -114,9 +113,13 @@ export class FormPublicationComponent implements OnInit {
     const publication: Publication = { ...firstForm, ...secondForm };
 
     if (this.isEdit) {
-      this.publicationsService.patchPublication(publication);
+      if (this.cover) {
+        this.publicationsService.sendPublication(publication, 'put', this.cover);
+      }
+      
+      this.publicationsService.sendPublication(publication, 'patch');
     } else {
-      this.publicationsService.postPublication(publication, this.cover);
+      this.publicationsService.sendPublication(publication, 'post', this.cover);
     }
   }
 

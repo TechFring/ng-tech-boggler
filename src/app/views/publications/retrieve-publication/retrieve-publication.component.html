@@ -1,21 +1,4 @@
 <div class="container-publication" *ngIf="publication">
-  <div *ngIf="userId === publication.user.id" class="more-options">
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>more_horiz</mat-icon>
-    </button>
-
-    <mat-menu #menu="matMenu">
-      <button
-        mat-menu-item
-        routerLink="/publicacoes/editar/{{ publication.id }}"
-      >
-        Editar
-      </button>
-
-      <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
-    </mat-menu>
-  </div>
-
   <h1>{{ publication.title }}</h1>
 
   <h4>{{ publication.subtitle }}</h4>
@@ -38,6 +21,39 @@
     >
       {{ tag.name }}
     </button>
+  </div>
+
+  <div class="publication-footer">
+    <div *ngIf="userId === publication.user.id">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+  
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          routerLink="/publicacoes/editar/{{ publication.id }}"
+        >
+          Editar
+        </button>
+  
+        <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
+      </mat-menu>
+    </div>
+
+    <div *ngIf="isAuthenticated; then authenticatedUser; else anonymousUser"></div>
+    
+    <ng-template #authenticatedUser>
+      <button mat-icon-button (click)="onSaved()">
+        <mat-icon>{{ isSaved ? "bookmark" : "bookmark_border" }}</mat-icon>
+      </button>
+    </ng-template>
+
+    <ng-template #anonymousUser>
+      <button mat-icon-button (click)="dialogsService.loginDialog()">
+        <mat-icon>bookmark_border</mat-icon>
+      </button>
+    </ng-template>
   </div>
 
   <mat-divider></mat-divider>

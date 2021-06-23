@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Publication } from 'src/app/models/publications';
 import { PublicationsService } from 'src/app/services/publications.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { AccountsService } from 'src/app/services/accounts.service';
+import { DialogsService } from 'src/app/services/dialogs.service';
 
 @Component({
   selector: 'app-retrieve-publication',
@@ -14,41 +16,64 @@ export class RetrievePublicationComponent implements OnInit {
   public publication: Publication;
   public morePublications: Publication[];
   public userId: string;
+  public savedId: string;
+  public isSaved: boolean = false;
+  public isAuthenticated: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
+    private accountsService: AccountsService,
+    private publicationsService: PublicationsService,
     public utilsService: UtilsService,
-    private publicationsService: PublicationsService
+    public dialogsService: DialogsService
   ) {}
 
   ngOnInit(): void {
     this.userId = this.utilsService.getUserId();
-
+    this.isAuthenticated = !!this.userId;
     this.route.paramMap.subscribe((params: ParamMap) => {
       const publicationId = params.get('publicationId');
-
-      const resRetrieve =
-        this.publicationsService.getPublicationById(publicationId);
-      resRetrieve.subscribe((publication) => {
-        this.publication = publication;
-      });
-
-      const resMore = this.publicationsService.getRandomPublications();
-      resMore.subscribe((publications) => {
-        this.morePublications = publications;
-      });
+      this.setPublication(publicationId);
+      this.setMore();
     });
   }
 
-  onConfirm(publicationId: string): void {
-    const text =
-      'Tem certeza que deseja excluir essa publicação? Esta ação não poderá ser desfeita.';
+  setIsSaved(): void {
+    if (!this.isAuthenticated) {
+      this.isSaved = false;
+      return;
+    }
 
-    this.utilsService.confirmDialog(
-      text,
-      publicationId,
-      this.deletePublication
+    const res = this.accountsService.getSavedById(
+      this.userId,
+      this.publication.id
     );
+
+    res.subscribe(
+      (saved) => {
+        this.isSaved = true;
+        this.savedId = saved.id;
+      },
+      (error) => {
+        this.isSaved = false;
+        console.clear();
+      }
+    );
+  }
+
+  setMore(): void {
+    const res = this.publicationsService.getRandomPublications();
+    res.subscribe((publications) => {
+      this.morePublications = publications;
+    });
+  }
+
+  setPublication(publicationId: string): void {
+    const res = this.publicationsService.getPublicationById(publicationId);
+    res.subscribe((publication) => {
+      this.publication = publication;
+      this.setIsSaved();
+    });
   }
 
   deletePublication = (publicationId: string) => {
@@ -57,4 +82,28 @@ export class RetrievePublicationComponent implements OnInit {
       window.location.href = '/publicacoes';
     });
   };
+
+  onConfirm(publicationId: string): void {
+    const text =
+      'Tem certeza que deseja excluir essa publicação? Esta ação não poderá ser desfeita.';
+
+    this.dialogsService.confirmDialog(
+      text,
+      publicationId,
+      this.deletePublication
+    );
+  }
+
+  onSaved(): void {
+    this.isSaved = !this.isSaved;
+    const isDelete = this.savedId && !this.isSaved;
+
+    if (isDelete) {
+      this.accountsService.deleteSaved(this.savedId).subscribe();
+    } else {
+      this.accountsService.postSaved(this.publication.id).subscribe((saved) => {
+        this.savedId = saved.id;
+      });
+    }
+  }
 }

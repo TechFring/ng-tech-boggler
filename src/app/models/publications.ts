@@ -18,3 +18,13 @@ export interface Tag {
   created_at: string;
   updated_at: string;
 }
+
+export interface Saved {
+  id: string;
+  user: User;
+  publication: Publication;
+  created_at: string;
+  updated_at: string;
+}
+
+export type CardPublicationMode = 'saved' | 'myProfile' | '';

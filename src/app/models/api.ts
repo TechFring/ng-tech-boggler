@@ -11,3 +11,5 @@ export interface Pagination {
   pageSize: number;
   previousPageIndex?: number;
 }
+
+export type Method = 'get' | 'post' | 'put' | 'patch' | 'delete';

@@ -17,11 +17,11 @@ import { PageNotFoundComponent } from './views/page-not-found/page-not-found.com
 import { HomeComponent } from './layout/home/home.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'publicacoes', pathMatch: 'full' },
   {
     path: '',
     component: HomeComponent,
     children: [
-      // { path: '', redirectTo: 'publicacoes', pathMatch: 'full' },
       { path: 'publicacoes/novo', component: FormPublicationComponent },
       { path: 'publicacoes/editar/:publicationId', component: FormPublicationComponent },
       { path: 'meu-perfil', component: ProfileComponent },
@@ -32,7 +32,6 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'criar-conta', component: CreateAccountComponent },
       { path: 'usuarios/:userId', component: ProfileComponent },

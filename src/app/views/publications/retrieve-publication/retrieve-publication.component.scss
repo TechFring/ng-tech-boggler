@@ -4,13 +4,8 @@
   margin-top: 64px;
 
   mat-divider {
-    margin: 80px 0 24px;
+    margin: 16px 0 24px;
   }
-}
-
-.more-options {
-  display: flex;
-  justify-content: center;
 }
 
 .container-author {
@@ -64,9 +59,19 @@
 
     app-card-publication {
       flex: 1;
-      max-width: 390px;
+      width: 100%;
+
+      & + app-card-publication {
+        margin-left: 16px;
+      }
     }
   }
+}
+
+.publication-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
 }
 
 .photo-author {
@@ -86,8 +91,11 @@
     padding: 32px 16px 48px;
 
     & > div {
-      display: flex;
       flex-direction: column;
+
+      app-card-publication + app-card-publication {
+        margin: 0;
+      }
     }
   }
 }

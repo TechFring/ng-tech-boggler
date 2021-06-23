@@ -1,8 +1,7 @@
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
 import { UtilsService } from 'src/app/services/utils.service';
@@ -21,14 +20,14 @@ export class AuthService {
     private utilsService: UtilsService
   ) {}
 
-  login(account: Account): void {
+  login(account: Account, redirect = 'publicacoes'): void {
     const url = `${this.baseUrl}/login/`;
     const res = this.http.post<Token>(url, account);
 
     res.subscribe(
       (token) => {
         this.setAccessToken(token);
-        this.router.navigate(['publicacoes']);
+        window.location.href = redirect;
       },
       () => {
         this.utilsService.handleRequestError('Credenciais inválidas');
@@ -40,6 +39,11 @@ export class AuthService {
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('userId');
     window.location.href = '/login';
+  }
+
+  createAccount(account: Account): Observable<Account> {
+    const url = `${this.baseUrl}/criar-conta/`;
+    return this.http.post<Account>(url, account);
   }
 
   getAccessToken(): string {

@@ -1,27 +1,38 @@
 <mat-card>
-  <div *ngIf="callbackDelete && isMyProfile" class="more-options">
+  <!-- <Mode -->
+  <div *ngIf="mode === 'myProfile' || mode === 'saved'" class="more-options">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_horiz</mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
       <button
+        *ngIf="mode === 'myProfile'"
         mat-menu-item
         routerLink="/publicacoes/editar/{{ publication.id }}"
       >
         Editar
       </button>
 
-      <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
+      <div *ngIf="mode === 'myProfile'; then deletePublication; else deleteSaved"></div>
+
+      <ng-template #deletePublication>
+        <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
+      </ng-template>
+      
+      <ng-template #deleteSaved>
+        <button mat-menu-item (click)="onConfirm(savedId)">Apagar</button>
+      </ng-template>
     </mat-menu>
   </div>
+  <!-- Mode/> -->
 
   <a routerLink="/publicacoes/{{ publication.id }}">
     <mat-card-header>
       <div
         mat-card-avatar
         class="cover"
-        [style.background-image]="'url(' + publication.cover + ')'"
+        [style.background-image]="utilsService.getPhotoUrl(publication.cover)"
       ></div>
       <mat-card-title>{{ publication.title }}</mat-card-title>
       <mat-card-subtitle>

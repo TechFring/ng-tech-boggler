@@ -1,6 +1,6 @@
 <mat-toolbar>
   <div class="container">
-    <a routerLink="">
+    <a routerLink="/publicacoes">
       <span class="material-icons">face</span>
     </a>
 
@@ -9,12 +9,12 @@
     <div
       *ngIf="
         authService.isUserLoggedIn();
-        then isAuthenticated;
-        else noAuthenticated
+        then authenticatedUser;
+        else anonymousUser
       "
     ></div>
 
-    <ng-template #isAuthenticated>
+    <ng-template #authenticatedUser>
       <button mat-button routerLink="/publicacoes/novo">
         Escrever publicação
       </button>
@@ -30,7 +30,7 @@
       </mat-menu>
     </ng-template>
 
-    <ng-template #noAuthenticated>
+    <ng-template #anonymousUser>
       <button mat-button routerLink="/login">Entrar</button>
 
       <button mat-stroked-button routerLink="/criar-conta" color="primary">

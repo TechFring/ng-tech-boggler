@@ -15,6 +15,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { CardPublicationComponent } from './components/card-publication/card-publication.component';
+import { SavedComponent } from './components/profile/saved/saved.component';
+import { PublicationsComponent } from './components/profile/publications/publications.component';
 
 // Interceptors
 import { httpInterceptorProviders } from './http-interceptors';
@@ -40,6 +42,7 @@ import { materialModules } from './material-modules';
 
 // Kolkov
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     FooterComponent,
     ProfileComponent,
     ConfirmDialogComponent,
+    SavedComponent,
+    PublicationsComponent,
+    LoginDialogComponent,
   ],
   imports: [
     BrowserModule,
