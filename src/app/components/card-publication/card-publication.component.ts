@@ -18,6 +18,7 @@ export class CardPublicationComponent implements OnInit {
   @Input() publication: any;
   @Input() mode?: CardPublicationMode;
   @Input() callbackDelete?: (publicationId: string) => void;
+  @Input() authUserId?: string;
 
   constructor(
     private dialogsService: DialogsService,

@@ -26,7 +26,7 @@ export class AuthService {
 
     res.subscribe(
       (token) => {
-        this.setAccessToken(token);
+        this.setAccessToken(token.access);
         window.location.href = redirect;
       },
       () => {
@@ -51,9 +51,8 @@ export class AuthService {
     return token;
   }
 
-  setAccessToken(res: Token): void {
-    window.localStorage.setItem('token', res.access);
-    window.localStorage.setItem('userId', res.id);
+  setAccessToken(token: string): void {
+    window.localStorage.setItem('token', token);
   }
 
   getTokenExpirationDate(token: string): Date {
@@ -79,7 +78,10 @@ export class AuthService {
     const token = this.getAccessToken();
 
     if (!token) return false;
-    else if (this.isTokenExpired(token)) return false;
+    else if (this.isTokenExpired(token)) {
+      this.logout();
+      return false;
+    }
     return true;
   }
 }

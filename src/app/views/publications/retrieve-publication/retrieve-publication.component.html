@@ -24,7 +24,7 @@
   </div>
 
   <div class="publication-footer">
-    <div *ngIf="userId === publication.user.id">
+    <div *ngIf="isOwner">
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_horiz</mat-icon>
       </button>
@@ -41,19 +41,9 @@
       </mat-menu>
     </div>
 
-    <div *ngIf="isAuthenticated; then authenticatedUser; else anonymousUser"></div>
-    
-    <ng-template #authenticatedUser>
-      <button mat-icon-button (click)="onSaved()">
-        <mat-icon>{{ isSaved ? "bookmark" : "bookmark_border" }}</mat-icon>
-      </button>
-    </ng-template>
-
-    <ng-template #anonymousUser>
-      <button mat-icon-button (click)="dialogsService.loginDialog()">
-        <mat-icon>bookmark_border</mat-icon>
-      </button>
-    </ng-template>
+    <button mat-icon-button (click)="onSaved()">
+      <mat-icon>{{ isSaved ? "bookmark" : "bookmark_border" }}</mat-icon>
+    </button>
   </div>
 
   <mat-divider></mat-divider>
@@ -78,9 +68,7 @@
       <div
         [routerLink]="utilsService.getProfileUrl(publication.user.id)"
         class="photo-author"
-        [style.background-image]="
-          utilsService.getPhotoUrl(publication.user.photo)
-        "
+        [style.background-image]="utilsService.getPhotoUrl(publication.user.photo)"
       ></div>
     </div>
   </div>

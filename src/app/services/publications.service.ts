@@ -107,16 +107,14 @@ export class PublicationsService {
     }
 
     res.subscribe(
-      () => {
+      (res: Publication) => {
         const message = 'Publicação enviada com sucesso!';
         this.utilsService.showMessage(message);
+        this.router.navigate([`/publicacoes/${res.id}`]);
       },
       () => {
         const message = 'Ocorreu um erro inesperado. Tente novamente';
         this.utilsService.showMessage(message, true);
-      },
-      () => {
-        this.router.navigate(['/publicacoes']);
       }
     );
   }

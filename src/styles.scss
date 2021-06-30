@@ -25,6 +25,10 @@ a {
   text-decoration: none;
 }
 
+textarea {
+  resize: none !important;
+}
+
 .brand {
   display: flex;
   align-items: center;

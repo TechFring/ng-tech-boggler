@@ -25,7 +25,7 @@
 
       <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="/meu-perfil">Meu perfil</button>
-        <button mat-menu-item>Configurações da conta</button>
+        <button mat-menu-item routerLink="/meu-perfil/configuracoes">Configurações da conta</button>
         <button mat-menu-item (click)="authService.logout()">Sair</button>
       </mat-menu>
     </ng-template>

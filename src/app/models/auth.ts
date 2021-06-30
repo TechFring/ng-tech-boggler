@@ -1,7 +1,5 @@
 export interface Token {
-  refresh: string;
   access: string;
-  id: string;
 }
 
 export interface Account {
@@ -15,6 +13,7 @@ export interface User {
   last_name: string;
   username: string;
   email: string;
+  date_joined?: string;
   password?: string;
   bio?: string;
   photo?: string;

@@ -35,15 +35,9 @@ export class UtilsService {
     return background;
   }
 
-  getUserId(): string {
-    const userId = window.localStorage.getItem('userId');
-    return userId;
-  }
-
-  getProfileUrl(userId: string): string {
-    let url = `/usuarios/${userId}`;
-    const id = this.getUserId();
-    if (userId === id) url = '/meu-perfil';
-    return url;
+  getProfileUrl(authUserId: string, publicationUserId: string): string {
+    return authUserId === publicationUserId
+      ? `/usuarios/${publicationUserId}`
+      : '/meu-perfil';
   }
 }

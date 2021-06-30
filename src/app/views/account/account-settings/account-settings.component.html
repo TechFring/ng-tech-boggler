@@ -1,0 +1,109 @@
+<div class="container">
+  <h1>Configurações da conta</h1>
+  
+  <h2 class="subtitle">Mude seu perfil e configurações da conta</h2>
+
+  <div class="card">
+    <mat-button-toggle-group value="userInfo">
+      <mat-button-toggle value="userInfo" (change)="onChange($event.value)">
+        <mat-icon>person</mat-icon>
+        <span>&nbsp;Conta</span>
+      </mat-button-toggle>
+      
+      <mat-button-toggle value="accountPassword" (change)="onChange($event.value)">
+        <mat-icon>lock</mat-icon>
+        <span>&nbsp;Senha</span>
+      </mat-button-toggle>
+      
+      <mat-button-toggle value="moreOptions" (change)="onChange($event.value)">
+        <mat-icon>settings_suggest</mat-icon>
+        <span>&nbsp;Mais</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div class="card-body">
+        <ng-template [ngIf]="optionSelected === 'userInfo'">
+            <h2>Informações da conta</h2>
+
+            <form [formGroup]="formUserInfo" (ngSubmit)="onSubmitUserInfo()">
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Nome</mat-label>
+                  <input matInput type="text" formControlName="first_name" (keydown.space)="$event.preventDefault()" />
+                  <mat-error *ngIf="formUserInfo.controls['first_name'].errors?.required">Campo obrigatório</mat-error>
+                  <mat-error *ngIf="formUserInfo.controls['first_name'].errors?.maxlength">Esse campo deve conter no máximo 50 caracteres</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                  <mat-label>Sobrenome</mat-label>
+                  <input matInput type="text" formControlName="last_name" (keydown.space)="$event.preventDefault()" />
+                  <mat-error *ngIf="formUserInfo.controls['last_name'].errors?.required">Campo obrigatório</mat-error>
+                  <mat-error *ngIf="formUserInfo.controls['last_name'].errors?.maxlength">Esse campo deve conter no máximo 50 caracteres</mat-error>
+                </mat-form-field>
+              </p>
+              
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Nome de usuário</mat-label>
+                  <input matInput type="text" formControlName="username" (keydown.space)="$event.preventDefault()" />
+                  <mat-error *ngIf="formUserInfo.controls['username'].errors?.required">Campo obrigatório</mat-error>
+                  <mat-error *ngIf="formUserInfo.controls['username'].errors?.minlength">Esse campo deve conter no mínimo 8 caracteres</mat-error>
+                  <mat-error *ngIf="formUserInfo.controls['username'].errors?.maxlength">Esse campo deve conter no máximo 20 caracteres</mat-error>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="text" formControlName="email" (keydown.space)="$event.preventDefault()" />
+                  <mat-error *ngIf="formUserInfo.controls['email'].errors?.required">Campo obrigatório</mat-error>
+                  <mat-error *ngIf="formUserInfo.controls['email'].errors?.email">Email inválido</mat-error>
+                </mat-form-field>
+              </p>
+              
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Biografia</mat-label>
+                  <textarea matInput formControlName="bio" rows="4"></textarea>
+                  <mat-error *ngIf="formUserInfo.controls['bio'].errors?.maxlength">Esse campo deve conter no máximo 255 caracteres</mat-error>
+                </mat-form-field>
+              </p>
+
+              <button mat-raised-button type="submit" color="primary">Salvar</button>
+            </form>
+        </ng-template>
+        
+        <ng-template [ngIf]="optionSelected === 'accountPassword'">
+          <h2>Alterar senha</h2>
+
+          <form [formGroup]="formUserPassword" (ngSubmit)="onSubmitUserPassword()">
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Senha</mat-label>
+                <input matInput type="password" formControlName="password" />
+                <mat-error *ngIf="formUserPassword.controls['password'].errors?.required">Campo obrigatório</mat-error>
+                <mat-error *ngIf="formUserPassword.controls['password'].errors?.minlength">Esse campo deve conter no mínimo 8 caracteres</mat-error>
+                <mat-error *ngIf="formUserPassword.controls['password'].errors?.maxlength">Esse campo deve conter no máximo 20 caracteres</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline">
+                <mat-label>Confirmar senha</mat-label>
+                <input matInput type="password" formControlName="confirm_password" />
+                <mat-error>As senhas não coincidem</mat-error>
+              </mat-form-field>
+            </p>
+
+            <button mat-raised-button type="submit" color="primary">Salvar</button>
+          </form>
+        </ng-template>
+
+        <ng-template [ngIf]="optionSelected === 'moreOptions'">
+          <h2>Mais</h2>
+          <p>
+            Primeiro acesso:&nbsp;
+            {{ user.date_joined | date: 'dd/MM/yyyy' }}
+          </p>
+
+          <button mat-stroked-button type="button" color="warn">Desativar conta</button>
+        </ng-template>
+    </div>
+  </div>
+</div>

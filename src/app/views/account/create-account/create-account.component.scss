@@ -1,5 +1,27 @@
 @import "../../../../styles.scss";
 
+form {
+  margin-top: 32px;
+  width: 100%;
+
+  p {
+    display: flex;
+
+    mat-form-field {
+      flex: 1;
+
+      & + mat-form-field {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    display: block;
+    margin-left: auto;
+  }
+}
+
 .container-sm {
   display: flex;
   flex-direction: column;
@@ -31,37 +53,7 @@
   text-align: center;
 }
 
-form {
-  margin-top: 32px;
-  width: 100%;
-
-  p {
-    display: flex;
-
-    mat-form-field {
-      flex: 1;
-
-      & + mat-form-field {
-        margin-left: 16px;
-      }
-    }
-  }
-
-  button[type="submit"] {
-    display: block;
-    margin-left: auto;
-  }
-}
-
 @media (max-width: 650px) {
-  .container-sm {
-    margin: 56px 0;
-  }
-
-  .message {
-    display: none;
-  }
-
   form p {
     flex-direction: column;
     margin: 0;
@@ -69,5 +61,13 @@ form {
     mat-form-field + mat-form-field {
       margin: 0;
     }
+  }
+
+  .container-sm {
+    margin: 56px 0;
+  }
+
+  .message {
+    display: none;
   }
 }

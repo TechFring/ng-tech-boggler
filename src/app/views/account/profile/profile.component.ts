@@ -37,17 +37,15 @@ export class ProfileComponent implements OnInit {
     this.isMyProfile = paramUserId === null;
 
     if (this.isMyProfile) {
-      const userId = this.utilsService.getUserId();
-      const res = this.accountsService.getOwner(userId);
+      const res = this.accountsService.getAuthenticatedUser();
       res.subscribe((owner) => {
         this.user = owner;
         this.setPublications();
       });
     } else {
-      this.checksIfIsMyOwnProfile(paramUserId);
-
       const res = this.accountsService.getUserById(paramUserId);
       res.subscribe((user) => {
+        this.checksIfIsMyOwnProfile(paramUserId, user.id);
         this.user = user;
         this.setPublications();
       });
@@ -71,17 +69,8 @@ export class ProfileComponent implements OnInit {
       });
   };
 
-  deletePublication = (publicationId: string): void => {
-    const res = this.publicationsService.deletePublication(publicationId);
-    res.subscribe(() => {
-      window.location.reload();
-    });
-  };
-
-  checksIfIsMyOwnProfile(paramUserId: string): void {
-    const userId = this.utilsService.getUserId();
-
-    if (userId === paramUserId) {
+  checksIfIsMyOwnProfile(paramUserId: string, requestUserId: string): void {
+    if (requestUserId === paramUserId) {
       window.location.href = '/meu-perfil';
       return;
     }

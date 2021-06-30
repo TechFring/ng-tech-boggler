@@ -43,6 +43,7 @@ import { materialModules } from './material-modules';
 // Kolkov
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
+import { AccountSettingsComponent } from './views/account/account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { LoginDialogComponent } from './components/login-dialog/login-dialog.com
     SavedComponent,
     PublicationsComponent,
     LoginDialogComponent,
+    AccountSettingsComponent,
   ],
   imports: [
     BrowserModule,

@@ -32,18 +32,9 @@ export class AccountsService {
     return this.http.get<ResponseAPI>(url);
   }
 
-  getOwner(userId: string): Observable<User> {
-    const url = `${this.baseUrl}/${userId}/?keyword=owner`;
-    return this.http.get<User>(url).pipe(
-      map((res) => res),
-      catchError(() => {
-        this.authService.logout();
-        return this.utilsService.handleRequestError(
-          'Ocorreu um erro inesperado',
-          ''
-        );
-      })
-    );
+  getAuthenticatedUser(): Observable<User> {
+    const url = `${this.baseUrl}/`
+    return this.http.get<User>(url);
   }
 
   getUserById(userId: string): Observable<User> {
@@ -54,6 +45,18 @@ export class AccountsService {
         this.utilsService.handleRequestError('Usuário não encontrado', '')
       )
     );
+  }
+
+  patchUserInfo(user: Partial<User>): void {
+    const url = `${this.baseUrl}/${user.id}/`;
+    const res = this.http.patch<User>(url, user);
+    res.subscribe(
+      () => {
+        this.utilsService.showMessage('Informações atualizadas com sucesso!');
+      },
+      () => {
+        this.utilsService.showMessage('Ocorreu um erro interno. Tente novamente mais tarde', true);
+      });
   }
 
   getSaved(

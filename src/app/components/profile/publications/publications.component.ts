@@ -54,6 +54,6 @@ export class PublicationsComponent implements OnInit {
 
   deletePublication = (publicationId: string): void => {
     const res = this.publicationsService.deletePublication(publicationId);
-    res.subscribe(() => this.setPublications());
+    res.subscribe(() => window.location.reload());
   };
 }

@@ -1,11 +1,14 @@
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { combineLatest, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { Publication } from 'src/app/models/publications';
 import { PublicationsService } from 'src/app/services/publications.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { DialogsService } from 'src/app/services/dialogs.service';
+import { User } from 'src/app/models/auth';
 
 @Component({
   selector: 'app-retrieve-publication',
@@ -15,22 +18,20 @@ import { DialogsService } from 'src/app/services/dialogs.service';
 export class RetrievePublicationComponent implements OnInit {
   public publication: Publication;
   public morePublications: Publication[];
-  public userId: string;
   public savedId: string;
+  public authenticatedUser: User;
   public isSaved: boolean = false;
-  public isAuthenticated: boolean = false;
+  public isOwner: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private accountsService: AccountsService,
     private publicationsService: PublicationsService,
     public utilsService: UtilsService,
-    public dialogsService: DialogsService
+    private dialogsService: DialogsService
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.utilsService.getUserId();
-    this.isAuthenticated = !!this.userId;
     this.route.paramMap.subscribe((params: ParamMap) => {
       const publicationId = params.get('publicationId');
       this.setPublication(publicationId);
@@ -38,14 +39,21 @@ export class RetrievePublicationComponent implements OnInit {
     });
   }
 
+  setAuthenticatedUser(): void {
+    const res = this.accountsService.getAuthenticatedUser();
+    res.subscribe((user) => {
+      this.authenticatedUser = user;
+    });
+  }
+
   setIsSaved(): void {
-    if (!this.isAuthenticated) {
+    if (!this.authenticatedUser) {
       this.isSaved = false;
       return;
     }
 
     const res = this.accountsService.getSavedById(
-      this.userId,
+      this.authenticatedUser.id,
       this.publication.id
     );
 
@@ -56,7 +64,6 @@ export class RetrievePublicationComponent implements OnInit {
       },
       (error) => {
         this.isSaved = false;
-        console.clear();
       }
     );
   }
@@ -69,11 +76,25 @@ export class RetrievePublicationComponent implements OnInit {
   }
 
   setPublication(publicationId: string): void {
-    const res = this.publicationsService.getPublicationById(publicationId);
-    res.subscribe((publication) => {
-      this.publication = publication;
-      this.setIsSaved();
-    });
+    const resPublication = this.publicationsService
+      .getPublicationById(publicationId)
+      .pipe(catchError(() => of(undefined)));
+
+    const resAccount = this.accountsService
+      .getAuthenticatedUser()
+      .pipe(catchError(() => of(undefined)));
+
+    combineLatest(resPublication, resAccount).subscribe(
+      ([publication, authenticatedUser]) => {
+        if (authenticatedUser) {
+          this.isOwner = publication.user.id === authenticatedUser.id;
+        }
+
+        this.authenticatedUser = authenticatedUser;
+        this.publication = publication;
+        this.setIsSaved();
+      }
+    );
   }
 
   deletePublication = (publicationId: string) => {
@@ -95,6 +116,11 @@ export class RetrievePublicationComponent implements OnInit {
   }
 
   onSaved(): void {
+    if (!this.authenticatedUser) {
+      this.dialogsService.loginDialog();
+      return;
+    }
+
     this.isSaved = !this.isSaved;
     const isDelete = this.savedId && !this.isSaved;
 
