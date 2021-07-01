@@ -82,12 +82,25 @@ form {
     }
   }
 
-  mat-button-toggle span {
-    display: none;
+  mat-button-toggle-group {
+    flex-direction: row;
+    max-height: 48px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  mat-button-toggle {
+    width: 100%;
+  }
+
+  .card {
+    flex-direction: column;
+    padding-right: 0;
   }
 
   .card-body {
     flex: 5;
     padding-left: 16px;
+    padding-right: 16px;
   }
 }
