@@ -27,4 +27,4 @@ export interface Saved {
   updated_at: string;
 }
 
-export type CardPublicationMode = 'saved' | 'myProfile' | '';
+export type CardPublicationMode = 'myPublication' | 'saved' | undefined;

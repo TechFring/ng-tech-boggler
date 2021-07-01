@@ -4,7 +4,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { Pagination } from 'src/app/models/api';
 import { Saved } from 'src/app/models/publications';
-import { CardPublicationMode } from 'src/app/models/publications';
 
 @Component({
   selector: 'app-saved',
@@ -14,7 +13,7 @@ import { CardPublicationMode } from 'src/app/models/publications';
 export class SavedComponent implements OnInit {
   public saved: Saved[] = [];
   public pagination: Pagination;
-  public mode: CardPublicationMode = 'saved';
+  public authUserId: string;
 
   @Input() userId: string;
 

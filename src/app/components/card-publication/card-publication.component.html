@@ -1,28 +1,20 @@
 <mat-card>
   <!-- <Mode -->
-  <div *ngIf="mode === 'myProfile' || mode === 'saved'" class="more-options">
+  <div *ngIf="['myPublication', 'saved'].indexOf(mode) !== -1" class="more-options">
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_horiz</mat-icon>
     </button>
 
     <mat-menu #menu="matMenu">
       <button
-        *ngIf="mode === 'myProfile'"
+        *ngIf="mode === 'myPublication'"
         mat-menu-item
         routerLink="/publicacoes/editar/{{ publication.id }}"
       >
         Editar
       </button>
-
-      <div *ngIf="mode === 'myProfile'; then deletePublication; else deleteSaved"></div>
-
-      <ng-template #deletePublication>
-        <button mat-menu-item (click)="onConfirm(publication.id)">Apagar</button>
-      </ng-template>
       
-      <ng-template #deleteSaved>
-        <button mat-menu-item (click)="onConfirm(savedId)">Apagar</button>
-      </ng-template>
+      <button mat-menu-item (click)="onConfirm()">Apagar</button>
     </mat-menu>
   </div>
   <!-- Mode/> -->

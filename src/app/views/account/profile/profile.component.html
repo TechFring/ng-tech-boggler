@@ -16,8 +16,6 @@
           {{ user.total_publications }}
           {{ user.total_publications > 1 ? "Publicações" : "Publicação" }}
         </li>
-
-        <!-- <li>&sdot;</li> -->
       </ul>
     </div>
 
@@ -33,7 +31,10 @@
   <div class="container-publications">
     <mat-tab-group>
       <mat-tab label="Publicações">
-        <app-publications [userId]="user.id" [isMyProfile]="isMyProfile"></app-publications>
+        <app-publications
+          [userId]="user.id"
+          [mode]="modePublication"
+        ></app-publications>
       </mat-tab>
 
       <mat-tab *ngIf="isMyProfile" label="Salvos">

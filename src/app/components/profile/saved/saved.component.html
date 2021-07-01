@@ -9,8 +9,8 @@
   <app-card-publication
     *ngFor="let item of saved"
     [publication]="item"
-    [mode]="mode"
     [callbackDelete]="deleteSaved"
+    mode="saved"
   ></app-card-publication>
 
   <app-paginator

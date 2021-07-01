@@ -1,11 +1,14 @@
+import { AccountsService } from 'src/app/services/accounts.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { AuthService } from 'src/app/services/auth.service';
 import { PublicationsService } from 'src/app/services/publications.service';
 import { Publication } from 'src/app/models/publications';
 import { Tag } from 'src/app/models/publications';
 import { Pagination } from 'src/app/models/api';
+import { User } from 'src/app/models/auth';
 
 @Component({
   selector: 'app-list-publication',
@@ -17,11 +20,20 @@ export class ListPublicationComponent implements OnInit {
   public pagination: Pagination;
   public tags: Tag[] = [];
   public tagFilter: Tag;
+  public user: User;
 
   constructor(
     public route: ActivatedRoute,
-    public publicationsService: PublicationsService
-  ) {}
+    public publicationsService: PublicationsService,
+    public accountsService: AccountsService,
+    private authService: AuthService
+  ) {
+    if (!this.authService.isTokenExpired()) {
+      this.accountsService.authenticatedUser.subscribe((user) => {
+        this.user = user;
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.pagination = {
@@ -29,8 +41,8 @@ export class ListPublicationComponent implements OnInit {
       pageSize: 10,
     };
 
-    const res = this.publicationsService.getTags();
-    res.subscribe(({ results }) => {
+    const resTags = this.publicationsService.getTags();
+    resTags.subscribe(({ results }) => {
       this.tags = results;
     });
 

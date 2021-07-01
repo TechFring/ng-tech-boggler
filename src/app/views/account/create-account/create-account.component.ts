@@ -63,9 +63,9 @@ export class CreateAccountComponent implements OnInit {
         this.utilsService.showMessage('Conta criada com sucesso!');
         this.router.navigate(['login']);
       },
-      (err) => {
+      (err: HttpErrorResponse) => {
         let message = '';
-
+        
         if (err.error.username?.length) {
           message = err.error.username[0];
           this.formGroup.controls['username'].setErrors({ invalid: true });

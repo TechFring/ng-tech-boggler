@@ -9,8 +9,8 @@
   <app-card-publication
     *ngFor="let publication of publications"
     [publication]="publication"
-    [mode]="mode"
     [callbackDelete]="deletePublication"
+    [mode]="mode"
   ></app-card-publication>
 
   <app-paginator

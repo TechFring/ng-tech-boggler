@@ -35,9 +35,9 @@ export class UtilsService {
     return background;
   }
 
-  getProfileUrl(authUserId: string, publicationUserId: string): string {
-    return authUserId === publicationUserId
-      ? `/usuarios/${publicationUserId}`
-      : '/meu-perfil';
+  getProfileUrl(publicationUserId: string, authUserId?: string): string {
+    return publicationUserId === authUserId
+      ? '/meu-perfil'
+      : `/usuarios/${publicationUserId}`;
   }
 }

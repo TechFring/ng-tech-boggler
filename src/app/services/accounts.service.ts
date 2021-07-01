@@ -9,19 +9,17 @@ import { User } from 'src/app/models/auth';
 import { environment } from 'src/environments/environment';
 import { ResponseAPI } from 'src/app/models/api';
 import { UtilsService } from 'src/app/services/utils.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountsService {
   public baseUrl = `${environment.api}/usuarios`;
+  public authenticatedUser: Observable<User>;
 
-  constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private utilsService: UtilsService
-  ) {}
+  constructor(private http: HttpClient, private utilsService: UtilsService) {
+    this.setAuthenticatedUser();
+  }
 
   getUserPublications(
     offset: number,
@@ -32,9 +30,9 @@ export class AccountsService {
     return this.http.get<ResponseAPI>(url);
   }
 
-  getAuthenticatedUser(): Observable<User> {
-    const url = `${this.baseUrl}/`
-    return this.http.get<User>(url);
+  private setAuthenticatedUser(): void {
+    const url = `${this.baseUrl}/`;
+    this.authenticatedUser = this.http.get<User>(url);
   }
 
   getUserById(userId: string): Observable<User> {
@@ -55,8 +53,12 @@ export class AccountsService {
         this.utilsService.showMessage('Informações atualizadas com sucesso!');
       },
       () => {
-        this.utilsService.showMessage('Ocorreu um erro interno. Tente novamente mais tarde', true);
-      });
+        this.utilsService.showMessage(
+          'Ocorreu um erro interno. Tente novamente mais tarde',
+          true
+        );
+      }
+    );
   }
 
   getSaved(

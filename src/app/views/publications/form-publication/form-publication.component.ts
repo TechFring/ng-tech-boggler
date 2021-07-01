@@ -67,18 +67,20 @@ export class FormPublicationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const res = this.publicationsService.getTags();
     const publicationId = this.route.snapshot.paramMap.get('publicationId');
     this.isEdit = publicationId !== null;
 
-    res.subscribe((res) => {
+    this.publicationsService.getTags().subscribe((res) => {
       this.tags = res.results;
 
       if (this.isEdit) {
         this.firstFormGroup.controls['cover'].clearValidators();
         this.firstFormGroup.controls['cover'].updateValueAndValidity();
 
-        const resEdit = this.publicationsService.getPublicationById(publicationId, true);
+        const resEdit = this.publicationsService.getPublicationById(
+          publicationId,
+          true
+        );
 
         resEdit.subscribe((publication) => {
           const tags = publication.tags.map((tag) => tag.id);
@@ -115,8 +117,9 @@ export class FormPublicationComponent implements OnInit {
     if (this.isEdit) {
       if (this.cover) {
         this.publicationsService.sendPublication(publication, 'put', this.cover);
+        return;
       }
-      
+
       this.publicationsService.sendPublication(publication, 'patch');
     } else {
       this.publicationsService.sendPublication(publication, 'post', this.cover);

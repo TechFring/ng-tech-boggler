@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
-import { Publication } from 'src/app/models/publications';
+import { Publication, CardPublicationMode } from 'src/app/models/publications';
 import { Pagination } from 'src/app/models/api';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { PublicationsService } from 'src/app/services/publications.service';
-import { CardPublicationMode } from 'src/app/models/publications';
 
 @Component({
   selector: 'app-publications',
@@ -15,10 +14,9 @@ import { CardPublicationMode } from 'src/app/models/publications';
 export class PublicationsComponent implements OnInit {
   public publications: Publication[] = [];
   public pagination: Pagination;
-  public mode: CardPublicationMode = '';
 
   @Input() userId: string;
-  @Input() isMyProfile: boolean;
+  @Input() mode: CardPublicationMode;
 
   constructor(
     private accountsService: AccountsService,
@@ -31,7 +29,6 @@ export class PublicationsComponent implements OnInit {
       pageSize: 10,
     };
 
-    if (this.isMyProfile) this.mode = 'myProfile';
     this.setPublications();
   }
 

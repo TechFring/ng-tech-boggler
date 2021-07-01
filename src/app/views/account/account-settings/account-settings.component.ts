@@ -3,8 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { User } from 'src/app/models/auth';
 import { AccountsService } from 'src/app/services/accounts.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -49,20 +47,14 @@ export class AccountSettingsComponent implements OnInit {
   public user: User;
   public optionSelected = 'userInfo';
 
-  constructor(
-    private authService: AuthService,
-    private accountsService: AccountsService,
-    private utilsService: UtilsService
-  ) {}
-
-  ngOnInit(): void {
-    const res = this.accountsService.getAuthenticatedUser();
-
-    res.subscribe((user) => {
+  constructor(public accountsService: AccountsService) {
+    this.accountsService.authenticatedUser.subscribe((user) => {
       this.user = user;
       this.setValueFormUserInfo();
     });
   }
+
+  ngOnInit(): void {}
 
   setValueFormUserInfo(): void {
     this.formUserInfo.patchValue({
@@ -85,7 +77,10 @@ export class AccountSettingsComponent implements OnInit {
   onSubmitUserPassword(): void {
     if (this.formUserPassword.valid) {
       const password = this.formUserPassword.value['password'];
-      const user: Partial<User> = { password, id: this.user.id };
+      const user: Partial<User> = {
+        password,
+        id: this.user.id,
+      };
       this.accountsService.patchUserInfo(user);
     }
   }

@@ -13,12 +13,9 @@ import { Account, Token } from 'src/app/models/auth';
 })
 export class AuthService {
   public baseUrl = `${environment.api}/auth`;
+  readonly accessToken = window.localStorage.getItem('token');
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private utilsService: UtilsService
-  ) {}
+  constructor(private http: HttpClient, private utilsService: UtilsService) {}
 
   login(account: Account, redirect = 'publicacoes'): void {
     const url = `${this.baseUrl}/login/`;
@@ -46,17 +43,12 @@ export class AuthService {
     return this.http.post<Account>(url, account);
   }
 
-  getAccessToken(): string {
-    const token = window.localStorage.getItem('token');
-    return token;
-  }
-
   setAccessToken(token: string): void {
     window.localStorage.setItem('token', token);
   }
 
-  getTokenExpirationDate(token: string): Date {
-    const decoded: any = jwt_decode(token);
+  getTokenExpirationDate(): Date {
+    const decoded: any = jwt_decode(this.accessToken);
 
     if (decoded.exp === undefined) return null;
 
@@ -65,20 +57,20 @@ export class AuthService {
     return date;
   }
 
-  isTokenExpired(token?: string): boolean {
-    if (!token) return true;
+  isTokenExpired(): boolean {
+    if (!this.accessToken) return true;
 
-    const date = this.getTokenExpirationDate(token);
+    const date = this.getTokenExpirationDate();
     if (date === undefined) return true;
 
     return !(date.valueOf() > new Date().valueOf());
   }
 
   isUserLoggedIn() {
-    const token = this.getAccessToken();
+    const token = this.accessToken;
 
     if (!token) return false;
-    else if (this.isTokenExpired(token)) {
+    else if (this.isTokenExpired()) {
       this.logout();
       return false;
     }
