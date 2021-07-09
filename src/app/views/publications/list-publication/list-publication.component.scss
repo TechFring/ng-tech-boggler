@@ -8,6 +8,10 @@
 .container-publications {
   max-width: 700px;
   width: 100%;
+
+  app-card-publication + app-card-publication {
+    margin-top: 10px;
+  }
 }
 
 .container-tags {

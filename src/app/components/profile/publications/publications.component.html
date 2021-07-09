@@ -6,13 +6,16 @@
 </ng-template>
 
 <ng-template #notIsEmpty>
-  <app-card-publication
-    *ngFor="let publication of publications"
-    [publication]="publication"
-    [callbackDelete]="deletePublication"
-    [mode]="mode"
-  ></app-card-publication>
-
+  <div>
+    <app-card-publication
+      *ngFor="let publication of publications"
+      [publication]="publication"
+      [callbackDelete]="deletePublication"
+      [authUserId]="authUserId"
+      [mode]="mode"
+    ></app-card-publication>
+  </div>
+  
   <app-paginator
     [callbackFunction]="setPublications"
     [pagination]="pagination"

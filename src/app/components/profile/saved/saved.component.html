@@ -6,12 +6,15 @@
 </ng-template>
 
 <ng-template #notIsEmpty>
-  <app-card-publication
-    *ngFor="let item of saved"
-    [publication]="item"
-    [callbackDelete]="deleteSaved"
-    mode="saved"
-  ></app-card-publication>
+  <div>
+    <app-card-publication
+      *ngFor="let item of saved"
+      [publication]="item"
+      [callbackDelete]="deleteSaved"
+      [authUserId]="authUserId"
+      mode="saved"
+    ></app-card-publication>
+  </div>
 
   <app-paginator
     [callbackFunction]="setSaved"

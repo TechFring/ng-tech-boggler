@@ -19,24 +19,16 @@ export class CardPublicationComponent implements OnInit {
   public text =
     'Tem certeza que deseja excluir essa publicação? Esta ação não poderá ser desfeita.';
   public registerId: string;
-  public authUserId;
 
   @Input() publication: any;
   @Input() mode: CardPublicationMode = undefined;
   @Input() callbackDelete?: (publicationId: string) => void;
+  @Input() authUserId?: string;
 
   constructor(
     private dialogsService: DialogsService,
-    public utilsService: UtilsService,
-    public accountsService: AccountsService,
-    private authService: AuthService
-  ) {
-    if (!this.authService.isTokenExpired()) {
-      this.accountsService.authenticatedUser.subscribe((user) => {
-        this.authUserId = user.id;
-      });
-    }
-  }
+    public utilsService: UtilsService
+  ) {}
 
   ngOnInit(): void {
     if (this.mode === 'saved') {

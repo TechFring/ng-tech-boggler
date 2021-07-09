@@ -3,7 +3,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthService } from 'src/app/services/auth.service';
 import { PublicationsService } from 'src/app/services/publications.service';
 import { Publication } from 'src/app/models/publications';
 import { Tag } from 'src/app/models/publications';
@@ -25,14 +24,11 @@ export class ListPublicationComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public publicationsService: PublicationsService,
-    public accountsService: AccountsService,
-    private authService: AuthService
+    public accountsService: AccountsService
   ) {
-    if (!this.authService.isTokenExpired()) {
-      this.accountsService.authenticatedUser.subscribe((user) => {
-        this.user = user;
-      });
-    }
+    this.accountsService.authenticatedUser.subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
   ngOnInit(): void {

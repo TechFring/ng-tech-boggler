@@ -16,10 +16,13 @@
     </ng-template>
 
     <ng-template #isNotEmpty>
-      <app-card-publication
-        *ngFor="let publication of publications"
-        [publication]="publication"
-      ></app-card-publication>
+      <div>
+        <app-card-publication
+          *ngFor="let publication of publications"
+          [publication]="publication"
+          [authUserId]="user?.id"
+        ></app-card-publication>
+      </div>
 
       <app-paginator
         [callbackFunction]="setPublications"

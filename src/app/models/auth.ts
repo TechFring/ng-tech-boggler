@@ -1,5 +1,6 @@
 export interface Token {
   access: string;
+  refresh: string;
 }
 
 export interface Account {
@@ -17,4 +18,5 @@ export interface User {
   password?: string;
   bio?: string;
   photo?: string;
+  is_active?: boolean;
 }

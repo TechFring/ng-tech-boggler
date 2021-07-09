@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { Saved } from 'src/app/models/publications';
@@ -9,16 +9,31 @@ import { User } from 'src/app/models/auth';
 import { environment } from 'src/environments/environment';
 import { ResponseAPI } from 'src/app/models/api';
 import { UtilsService } from 'src/app/services/utils.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountsService {
-  public baseUrl = `${environment.api}/usuarios`;
-  public authenticatedUser: Observable<User>;
+  readonly baseUrl = `${environment.api}/usuarios`;
+  readonly authenticatedUser = new BehaviorSubject<Partial<User>>({});
 
-  constructor(private http: HttpClient, private utilsService: UtilsService) {
+  constructor(
+    private http: HttpClient,
+    private utilsService: UtilsService,
+    private authService: AuthService
+  ) {
     this.setAuthenticatedUser();
+  }
+
+  private setAuthenticatedUser(): void {
+    if (this.authService.isUserLoggedIn()) {
+      const url = `${this.baseUrl}/`;
+
+      this.http.get<User>(url).subscribe((user) => {
+        this.authenticatedUser.next(user);
+      });
+    }
   }
 
   getUserPublications(
@@ -28,11 +43,6 @@ export class AccountsService {
   ): Observable<ResponseAPI> {
     const url = `${this.baseUrl}/${userId}/publicacoes/?offset=${offset}&limit=${limit}`;
     return this.http.get<ResponseAPI>(url);
-  }
-
-  private setAuthenticatedUser(): void {
-    const url = `${this.baseUrl}/`;
-    this.authenticatedUser = this.http.get<User>(url);
   }
 
   getUserById(userId: string): Observable<User> {
@@ -51,6 +61,24 @@ export class AccountsService {
     res.subscribe(
       () => {
         this.utilsService.showMessage('Informações atualizadas com sucesso!');
+      },
+      () => {
+        this.utilsService.showMessage(
+          'Ocorreu um erro interno. Tente novamente mais tarde',
+          true
+        );
+      }
+    );
+  }
+
+  disableAccount(userId: string): void {
+    const url = `${this.baseUrl}/${userId}/`;
+    const user: Partial<User> = { is_active: false };
+    const res = this.http.patch<User>(url, user);
+    res.subscribe(
+      () => {
+        this.utilsService.showMessage('Conta desativada com sucesso!');
+        this.authService.logout();
       },
       () => {
         this.utilsService.showMessage(

@@ -15,7 +15,7 @@ import { Method } from 'src/app/models/api';
   providedIn: 'root',
 })
 export class PublicationsService {
-  public baseUrl = environment.api;
+  readonly baseUrl = environment.api;
 
   constructor(
     private router: Router,

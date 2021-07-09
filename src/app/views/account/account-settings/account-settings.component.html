@@ -4,7 +4,7 @@
   <h2 class="subtitle">Mude seu perfil e configurações da conta</h2>
 
   <div class="card">
-    <mat-button-toggle-group value="userInfo">
+    <mat-button-toggle-group [(value)]="optionSelected">
       <mat-button-toggle value="userInfo" (change)="onChange($event.value)">
         <mat-icon>person</mat-icon>
         &nbsp;Conta
@@ -102,7 +102,14 @@
             {{ user.date_joined | date: 'dd/MM/yyyy' }}
           </p>
 
-          <button mat-stroked-button type="button" color="warn">Desativar conta</button>
+          <button
+            mat-stroked-button
+            type="button"
+            color="warn"
+            (click)="onClickDisableButton()"
+          >
+            Desativar conta
+          </button>
         </ng-template>
     </div>
   </div>

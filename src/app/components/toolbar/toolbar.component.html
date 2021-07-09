@@ -4,40 +4,75 @@
       <span class="material-icons">face</span>
     </a>
 
-    <button mat-button routerLink="/publicacoes">Publicações</button>
-
-    <div
+    <ng-container
       *ngIf="
         authService.isUserLoggedIn();
         then authenticatedUser;
         else anonymousUser
       "
-    ></div>
+    ></ng-container>
 
     <ng-template #authenticatedUser>
-      <button mat-button routerLink="/publicacoes/novo">
-        Escrever publicação
-      </button>
+      <ng-container
+        *ngIf="windowWidth >= 650; then mainMenu; else mobileMenu"
+      ></ng-container>
 
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
+      <ng-template #mainMenu>
+        <button mat-button routerLink="/publicacoes">Publicações</button>
+        
+        <button mat-button routerLink="/publicacoes/novo">Escrever publicação</button>
+  
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+  
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/meu-perfil">Meu perfil</button>
+          <button mat-menu-item routerLink="/meu-perfil/configuracoes">Configurações da conta</button>
+          <button mat-menu-item (click)="authService.logout()">Sair</button>
+        </mat-menu>
+      </ng-template>
 
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/meu-perfil">Meu perfil</button>
-        <button mat-menu-item routerLink="/meu-perfil/configuracoes">Configurações da conta</button>
-        <button mat-menu-item (click)="authService.logout()">Sair</button>
-      </mat-menu>
+      <ng-template #mobileMenu>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/publicacoes">Publicações</button>
+          <button mat-menu-item routerLink="/publicacoes/novo">Escrever publicação</button>
+          <button mat-menu-item routerLink="/meu-perfil">Meu perfil</button>
+          <button mat-menu-item routerLink="/meu-perfil/configuracoes">Configurações da conta</button>
+          <button mat-menu-item (click)="authService.logout()">Sair</button>
+        </mat-menu>
+      </ng-template>
     </ng-template>
 
     <ng-template #anonymousUser>
-      <button mat-button routerLink="/login">Entrar</button>
+      <ng-container
+        *ngIf="windowWidth >= 650; then mainMenu; else mobileMenu"
+      ></ng-container>
 
-      <button mat-stroked-button routerLink="/criar-conta" color="primary">
-        Criar conta
-      </button>
+      <ng-template #mainMenu>
+        <button mat-button routerLink="/publicacoes">Publicações</button>
+        <button mat-button routerLink="/login">Entrar</button>
+        <button mat-stroked-button routerLink="/criar-conta" color="primary">Criar conta</button>
+      </ng-template>
+
+      <ng-template #mobileMenu>
+        <button mat-stroked-button routerLink="/criar-conta" color="primary">Criar conta</button>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/login">Entrar</button>
+          <button mat-menu-item routerLink="/publicacoes">Publicações</button>
+        </mat-menu>
+      </ng-template>
     </ng-template>
-  </div>  
+  </div>
 </mat-toolbar>
 
 <div *ngIf="loaderService.isLoading | async" class="container-loader">

@@ -32,13 +32,13 @@
     <mat-tab-group>
       <mat-tab label="Publicações">
         <app-publications
-          [userId]="user.id"
           [mode]="modePublication"
+          [userId]="user.id"
         ></app-publications>
       </mat-tab>
 
       <mat-tab *ngIf="isMyProfile" label="Salvos">
-        <app-saved [userId]="user.id"></app-saved>
+        <app-saved></app-saved>
       </mat-tab>
     </mat-tab-group>
   </div>

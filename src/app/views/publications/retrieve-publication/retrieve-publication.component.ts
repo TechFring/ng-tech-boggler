@@ -6,7 +6,6 @@ import { PublicationsService } from 'src/app/services/publications.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { DialogsService } from 'src/app/services/dialogs.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/auth';
 
 @Component({
@@ -19,24 +18,19 @@ export class RetrievePublicationComponent implements OnInit {
   public morePublications: Publication[];
   public user: User;
   public savedId: string;
-  public authUserId: string;
   public isSaved: boolean = false;
   public isOwner: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService,
     private accountsService: AccountsService,
     private publicationsService: PublicationsService,
     public utilsService: UtilsService,
     private dialogsService: DialogsService
   ) {
-    if (!this.authService.isTokenExpired()) {
-      this.accountsService.authenticatedUser.subscribe((user) => {
-        this.user = user;
-        this.authUserId = user.id;
-      });
-    }
+    this.accountsService.authenticatedUser.subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
   ngOnInit(): void {
@@ -78,7 +72,7 @@ export class RetrievePublicationComponent implements OnInit {
   setPublication(publicationId: string): void {
     const res = this.publicationsService.getPublicationById(publicationId);
     res.subscribe((publication) => {
-      this.isOwner = publication.user.id === this.authUserId;
+      this.isOwner = publication.user.id === this.user?.id;
       this.publication = publication;
       this.setIsSaved();
     });
@@ -103,7 +97,7 @@ export class RetrievePublicationComponent implements OnInit {
   }
 
   onSaved(): void {
-    if (!this.user) {
+    if (Object.keys(this.user).length === 0) {
       this.dialogsService.loginDialog();
       return;
     }

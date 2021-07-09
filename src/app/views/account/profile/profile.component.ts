@@ -15,11 +15,10 @@ export class ProfileComponent implements OnInit {
   public user: User;
   public modePublication: CardPublicationMode;
   public isMyProfile: boolean;
-  public authUserId: string;
 
   constructor(
     private route: ActivatedRoute,
-    private accountsService: AccountsService,
+    public accountsService: AccountsService,
     public utilsService: UtilsService
   ) {}
 
@@ -29,9 +28,8 @@ export class ProfileComponent implements OnInit {
     this.isMyProfile = paramUserId === null;
 
     if (this.isMyProfile) {
-      this.accountsService.authenticatedUser.subscribe((user) => {
+      this.accountsService.authenticatedUser.subscribe((user: User) => {
         this.user = user;
-        this.authUserId = user.id;
         this.modePublication = 'myPublication';
       });
     } else {

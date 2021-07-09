@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { User } from 'src/app/models/auth';
 import { AccountsService } from 'src/app/services/accounts.service';
+import { DialogsService } from 'src/app/services/dialogs.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -47,8 +48,8 @@ export class AccountSettingsComponent implements OnInit {
   public user: User;
   public optionSelected = 'userInfo';
 
-  constructor(public accountsService: AccountsService) {
-    this.accountsService.authenticatedUser.subscribe((user) => {
+  constructor(public accountsService: AccountsService, private dialogsService: DialogsService) {
+    this.accountsService.authenticatedUser.subscribe((user: User) => {
       this.user = user;
       this.setValueFormUserInfo();
     });
@@ -83,6 +84,11 @@ export class AccountSettingsComponent implements OnInit {
       };
       this.accountsService.patchUserInfo(user);
     }
+  }
+
+  onClickDisableButton(): void {
+    const userId = this.user.id;
+    this.accountsService.disableAccount(userId);
   }
 
   onChange(value: string): void {

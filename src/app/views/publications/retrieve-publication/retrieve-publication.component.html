@@ -55,7 +55,7 @@
       <h1>
         <a
           class="link-dark-hover"
-          [routerLink]="utilsService.getProfileUrl(publication.user.id, authUserId)"
+          [routerLink]="utilsService.getProfileUrl(publication.user.id, user?.id)"
         >
           {{ publication.user.username }}
         </a>
@@ -66,7 +66,7 @@
 
     <div>
       <div
-        [routerLink]="utilsService.getProfileUrl(publication.user.id, authUserId)"
+        [routerLink]="utilsService.getProfileUrl(publication.user.id, user?.id)"
         class="photo-author"
         [style.background-image]="utilsService.getPhotoUrl(publication.user.photo)"
       ></div>
@@ -83,6 +83,7 @@
     <app-card-publication
       *ngFor="let publication of morePublications"
       [publication]="publication"
+      [authUserId]="user?.id"
     ></app-card-publication>
   </div>
 </div>

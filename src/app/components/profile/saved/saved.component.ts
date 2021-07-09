@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AccountsService } from 'src/app/services/accounts.service';
 import { Pagination } from 'src/app/models/api';
 import { Saved } from 'src/app/models/publications';
+import { User } from 'src/app/models/auth';
 
 @Component({
   selector: 'app-saved',
@@ -15,8 +16,6 @@ export class SavedComponent implements OnInit {
   public pagination: Pagination;
   public authUserId: string;
 
-  @Input() userId: string;
-
   constructor(private accountsService: AccountsService) {}
 
   ngOnInit(): void {
@@ -25,9 +24,14 @@ export class SavedComponent implements OnInit {
       pageSize: 10,
     };
 
-    this.setSaved();
-  }
+    this.accountsService.authenticatedUser.subscribe((user: User) => {
+      this.authUserId = user.id;
 
+      if (Object.keys(user).length !== 0) {
+        this.setSaved();
+      }
+    });
+  }
   setSaved = (event?: PageEvent): void => {
     if (event) {
       this.pagination = event;
@@ -36,7 +40,7 @@ export class SavedComponent implements OnInit {
     const res = this.accountsService.getSaved(
       this.pagination.pageIndex,
       this.pagination.pageSize,
-      this.userId
+      this.authUserId
     );
 
     res.subscribe(({ results, ...pagination }) => {

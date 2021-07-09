@@ -4,7 +4,20 @@ mat-card {
   position: relative;
   cursor: pointer;
   width: 100%;
+  height: 100%;
   margin-top: 16px;
+}
+
+mat-card-content {
+  padding-bottom: 16px;
+}
+
+mat-card-footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
 }
 
 .cover {

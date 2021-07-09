@@ -1,3 +1,4 @@
+import { User } from './../../../models/auth';
 import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -14,6 +15,7 @@ import { PublicationsService } from 'src/app/services/publications.service';
 export class PublicationsComponent implements OnInit {
   public publications: Publication[] = [];
   public pagination: Pagination;
+  public authUserId: string;
 
   @Input() userId: string;
   @Input() mode: CardPublicationMode;
@@ -29,7 +31,22 @@ export class PublicationsComponent implements OnInit {
       pageSize: 10,
     };
 
-    this.setPublications();
+    if (this.userId) {
+      this.setPublications();
+    }
+
+    this.accountsService.authenticatedUser.subscribe((user: User) => {
+      if (this.userId === undefined) {
+        this.userId = user.id;
+      } 
+      
+      const isEmpty = Object.keys(user).length === 0;
+
+      if (!isEmpty) {
+        this.authUserId = user.id;
+        this.setPublications();
+      }
+    });
   }
 
   setPublications = (event?: PageEvent): void => {
