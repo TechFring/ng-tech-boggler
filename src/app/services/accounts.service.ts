@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AccountsService {
   readonly baseUrl = `${environment.api}/usuarios`;
-  readonly authenticatedUser = new BehaviorSubject<Partial<User>>({});
+  public authenticatedUser = new BehaviorSubject<Partial<User>>({});
 
   constructor(
     private http: HttpClient,
@@ -59,7 +59,8 @@ export class AccountsService {
     const url = `${this.baseUrl}/${user.id}/`;
     const res = this.http.patch<User>(url, user);
     res.subscribe(
-      () => {
+      (user) => {
+        this.authenticatedUser.next(user);
         this.utilsService.showMessage('Informações atualizadas com sucesso!');
       },
       () => {
