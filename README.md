@@ -9,7 +9,7 @@ NG TECH BLOGGER
 
 - ✔️ Angular
 
-- ✔️ TypeScript
+- ✔️ Angular Material
 
 <br />
 <br />
